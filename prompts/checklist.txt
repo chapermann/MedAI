@@ -1,0 +1,47 @@
+{checklist diário dos pacientes}
+
+Preferencialmente à beira do leito. Todos os itens são importantes.
+
+Leito:
+Prontuário:
+Local: [ ] cti	[ ] sala vermelha 	[ ] Retaguarda
+
+✓ Profilaxia TVP
+
+✓ Profilaxia úlcera
+
+✓ Profilaxia Delirium
+
+✓ Paciente recebendo Dieta 
+
+✓ Antibioticoterapia
+
+✓ Culturas
+
+✓ Eliminações fisiológicas?
+
+✓ Checar as prescrições com a enfermagem e anotações da enfermagem.
+
+✓ Monitorização completa?
+
+✓ Em ventilação mecânica? Anotou os parâmetros ventilatóriosá?
+
+✓ Acompanhou o banho do paciente? Lesões de pele?
+
+✓ Retirada de dispositivos? CVD? PVP? Drenos?
+
+✓ Fisioterapia
+
+✓ Fonoaudiologia acompanhando?
+
+✓ Necessidade de avaliação do dentista / bucomaxilofacial?
+
+✓ Registro fotográfico de lesões?
+
+✓ Paciente acompanhado por outras especialidades?
+
+✓ Mobilização?
+
+✓ Previsão de alta? Quando?
+
+✓ O que falta para alta médica?

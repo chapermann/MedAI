@@ -1,0 +1,17 @@
+Critérios de Internação em Enfermaria de Clínica Médica
+
+1 - Paciente encontra-se de ALTA pelas especialidades cirúrgicas? 				[ ] sim [ ] não | sim= 1 ; não = -1
+2 - Paciente não apresenta nenhuma condição cirúrgica ou potencialmente cirúrgica no momento? 	[ ] sim [ ] não | sim= 1 ; não = -1
+3 - Paciente encontra-se em ar ambiente? 							[ ] sim [ ] não | sim= 1 ; não = -1
+4 - Paciente que precisa de oxigênio, necessita de pouco fluxo (até 5L/min) ou de pouca suplementação de oxigênio? 	[ ] sim [ ] não | sim= 1 ; não = -1
+5 - Paciente encontra-se lúcido? 								[ ] sim [ ] não | sim= 1 ; não = -1
+6 - Paciente que não encontra-se lúcido, encontra-se hemodinamicamente estável? 		[ ] sim [ ] não | sim= 1 ; não = -1
+7 - Paciente encontra-se nesse momento sem queixas álgicas? 					[ ] sim [ ] não | sim= 1 ; não = -1
+8 - Paciente recebeu alta recentemente ou esteve internado na clínica médica? 			[ ] sim [ ] não | sim= -1 ; não = 1
+9 - Paciente tem doença clínica descompensada? 							[ ] sim [ ] não | sim= 1 ; não = -1
+10 - Paciente tem doença clínica de especialidade que tenha no Hospital? 			[ ] sim [ ] não | sim= 1 ; não = -1
+
+Pontuação:
+< 5 provavelmente não está de alta para enfermaria de CM
+5 - 8 = provavelmente está de alta para a enfermaria de CM, reavaliar cuidadosamente
+> 8 = provavelmente está de alta para a enfermaria de CM

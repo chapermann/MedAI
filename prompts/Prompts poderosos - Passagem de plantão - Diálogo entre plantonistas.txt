@@ -1,0 +1,87 @@
+[{Prompt - Passagem de plantão entre os plantonistas}]
+
+Olá. Esse Prompt tem a finalidade de organizar o serviço médico e orientar os médicos plantonistas e médicos residentes na passagem de casos entre os plantonistas na saída e entrada dos plantões; Vamos chamar esse prompt de "Passagem de Plantão ideal, diálogo entre os plantonistas". 
+
+#Quando um plantonista sai do plantão, precisa passar os casos objetivamente, são cerca de 18 pacientes, se demorar 2 a 3 minutos, pode ficar quase uma hora passando os casos, tornando a passagem de plantão caótica.
+
+#O seu objetivo é criar uma plataforma web based, que pode ser acessada de qualquer lugar, para ser publicada no Git-hub, e você vai usar a API Key fornecida pela NVIDIA, segue os dados e a forma de uso abaixo.
+-------
+from openai import OpenAI
+
+client = OpenAI(
+  base_url = "https://integrate.api.nvidia.com/v1",
+  api_key = "nvapi-API_KEY"
+)
+
+
+completion = client.chat.completions.create(
+  model="deepseek-ai/deepseek-v4-pro",
+  messages=[{"role":"user","content":""}],
+  temperature=1,
+  top_p=0.95,
+  max_tokens=16384,
+  extra_body={"chat_template_kwargs":{"thinking":False}},
+  stream=False
+)
+
+print(completion.choices[0].message.content)
+---------------
+
+Tenho as diretrizes do App.
+
+"1 - Você não pode armazenar nem guardar na sua memória nenhuma informação sensível ou informação de dados que identifiquem o paciente, os médicos ou a equipe médica.
+2 - O Modelo de passagem do caso deverá obedecer os itens descritos abaixo na sessão: Modelo de round médico; Compreender todas as informações inseridas, Comprimir, e resumir os dados e informações. Reduzir tudo entre 50 e 80 palavras no máximo. Informar intercorrências, pendências.
+3 - Você deve tentar organizar todos os dados do prontuário inseridos na mensagem abaixo e compilar da maneira mais organizada possível.
+4 - Não ofereça opção de imprimir ou salvar em PDF, doc ou Docx. Ofereça opção de salvar em TXT. 
+5 - Se não houver descrição de peso do paciente, assuma 75Kg como peso padrão universal. Quando houver citação do peso, use o peso informado como referência para o caso; Outros dados biométricos deverão ser assumidos conforme forem informados, não precisa perguntar.
+6 - Assuma o sexo como informado nos dados sensíveis e dados cadastrais;
+7 - Se houver critérios de alta (no final há uma sessão descrita como critérios de alta médica da unidade de terapia intensiva ou de Sala Vermelha) informe que preenche critérios de alta médica para a enfermaria.
+8 - Não precisa perguntar o nome do profissional que está solicitando essa transcrição;
+9 - Evite uso de emoji, abreviações, maneirismos, gírias ou outras formas não clássicas de informação. Seja o mais formal possível.
+10 - Não sugira nada.
+11 - Reforce a necessidade de definição de condutas.
+12 - Deixe os casos com no máximo 2 minutos de conversa ou diálogo.
+13 - São 11 pacientes na Sala Vermelha e 6 pacientes na Sala Retaguarda do Trauma. Total de cerca de 18 pacientes.
+14 - Tenha somente um espaço para inserir a evolução médica do paciente. E coloque: "Cole aqui a evolução médica". Tire todas as informações que precisa desse prontuário médico e da evolução inserida.
+15 - O texto gerado deverá ser facilmente copiado e colado em editor de texto simples.
+16 - Organize todos os casos em um ambiente facilmente acessível: Leito Vermelha 1; Vermelha 2; Vermelha 3....
+17 - Depois vamos organizar todos num arquivo único, facilmente disponível para copiar e colar.
+18 - Uma tela simples, fundo branco, fontes Open Sans, Cores de aparência médica, sem muitos detalhes de imagem. Uma tela somente, exceto que na primeira vez que acessar o sistema, seja solicitada a API KEY, que deverá ser guardada em um arquivo oculto e bem escondido dentro do git hub. Uma tela somente Ok, a idéia é boa. Mas isso de colar a chave API não vai dar certo. Melhor seria inserir num arquivo oculto dentro do Main do gitHub, e buscar lá essa chave. Preciso que nessa única tela tenha: representação dos 11 leitos da Sala Vermelha tipo Botão ou caixa 3d; os 6 leitos da Retaguarda do Trauma. Um indicativo mostrando quando já foi inserido os dados e quais leitos ainda não tiveram dados inseridos. Uma forma visual tipo lampada vermelha não tem dados inseridos, Lâmpada verde, os dados foram inseridos. Sempre a opção de baixar em TXT. Abaixo, todas as evoluções elaboradas pela IA vão sendo organizadas numa caixa de texto abaixo, claro com data e hora do plantão. Em seguida, facilmente exportável para indicar a hora e o dia que foi feito.
+19 - Uso de API: API Key embutida no arquivo inicial, tenho uma Chave API no https://build.nvidia.com/settings/api-keys
+A NVIDIA oferece acesso gratuito a mais de 100 modelos via build.nvidia.com, com uma chave nvapi- obtida sem cartão de crédito e limite de 40 requisições por minuto. A API é totalmente compatível com o SDK da OpenAI — basta trocar a URL base e a chave. O app precisa de dois ajustes simples: trocar o endpoint da Anthropic pelo da NVIDIA e adicionar um campo para você inserir sua nvapi- key. usa a NVIDIA NIM API (integrate.api.nvidia.com) — compatível com OpenAI, gratuita, sem cartão de crédito. Modelo escolhido: Llama 3.3 70B Instruct da Meta — excelente em português clínico, robusto e rápido.
+Configurar a chave NVIDIA como variável de ambiente secreta (não fica exposta em lugar nenhum)
+20 - Metodologia de acesso a chave API chamando o integrante.api.nvidia.com
+21 - Você vai compilar os dados e os códigos e vou subir tudo para o Git Hub, na minha conta, onde poderei testar a validade do produto.
+22 - Somente usar a API KEY fornecida pela NVIDA Deepseek.
+23 - No contato da NVIDIA para inserção da API Key, vamos usar a Cloudflare, como backend, lá está em segredo inserida a API Key: https://nvidia-api-proxy.chapermann.workers.dev/
+24 - Vamos publicar no Git Hub, no repositório: https://chapermann.github.io/HandoffMed/
+25 - Pode ser em HTML ou Python, o que ficar melhor e mais acessível.
+
+Modelo de Passagem do Caso Clínico
+Transforme esses dados abaixo num texto corrido, objetivo e prático.
+*Leito
+*Dias internado
+*Motivo de internação
+*Atualmente qual o modo ventilatória?
+*Estável hemodinamicamente ou não.
+Quais são os pontos de atenção.
+O que precisa ser feito agora de imediato? Está considerado: Estável, Grave ou Gravíssimo?
+Há alguma pendência? 
+O que a rotina definiu sobre o caso?
+Está de dieta zero? Vai operar? Precisa de sangue? O que tem de urgente? Se não tiver nada na evolução, responda: No momento não há pendências ou questões imediatas para o caso.
+Há definição quanto ao investimento médico? Se houver parada Cardíaca é para ser reanimado? Há definições de limite de cuidado? [ ] sim ou [ ] não
+Condutas e rotina:
+•	Registrar todas as decisões do round, tanto diagnósticas quanto terapêuticas.
+(Ex.: Ajustar sedação, reduzir FiO₂, solicitar TC de tórax, discutir possível desmame de VM, coletar hemoculturas, avaliar troca de antibiótico)."
+-----------------
+Critérios de Alta do CTI ou da Emergência ou da Sala Vermelha:
+1 - Estável hemodinamicamente
+2 - Dieta enteral ou oral
+3 - Sem drogas vasoativas
+4 - Sem instabilidade hemodinâmica
+5 - Sem necessidade de ventilação mecânica
+6 - Doença estável sem critérios de piora
+7 - Boa Evolução clínica
+8 - Sem necessidade de Oxigênio ou de cirurgia
+9 - Alta pelas especialidades
+10 - Desejo do paciente ou dos familiares?

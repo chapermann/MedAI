@@ -1,0 +1,66 @@
+Evolução Médica
+Nome	-idade – Prontuário ou matrícula – Data e hora do registro do plantão – Médico plantonista responsável (se não tiver informações, deixar em branco)
+
+# Diagnóstico 1
+# Diagnóstico 2
+# Diagnóstico 3
+# # DI - hospitalar:
+
+## Nota de Admissão: (descrever com detalhes e com cronologia adequada, com enredo entendível, o desenvolvimento dos motivos e razões da internação médica.
+
+# HPP / Problemas clínicos associados: (descrever e relatar todos os problemas clínicos e cirúrgicos encontrados no prontuário e nas evoluções, marcar como resolvido todos os que já foram resolvidos, atuais como os que ainda estão em tratamento.
+
+# Lista de PROBLEMAS ATUAIS:
+
+# Lista de Problemas Resolvidos:
+
+# Pareceres + Clínica de apoio:	
+	[ ] Vascular	[ ] NC	[ ] CG	[ ] Ortopedia	[ ] Otorrino	[ ] Oftalmo 
+	[   ] Oncologia		[    ] Cir Tórax
+
+# Aguardando Procedimento?	[ ] SIM [ ] NÃO; Pós-op?	[ ] SIM [ ] NÃO
+# Aguardando visita da Cirurgia?  	[ ] SIM [ ] NÃO
+# Exames realizados:
+	### Radiologia:
+	# TC TORAX: 	[Data] LAUDO:	[ ] Não [ ] Sim: 
+	# RX:		[Data] LAUDO:	[ ] Não [ ] Sim:
+	### Ecocardiograma:
+	### US
+
+# Profilaxia de TEV / Anticoagulação plena: 	[ ] SIM [ ] NÃO
+
+# Invasões:
+	[ ] AV profundo: Veia, data, Origem
+	[ ] AV periférico: 
+	[ ] CVD
+	[ ] Dieta: [ ] SNE / [ ] CNE / [ ] GTT / [ ] Oral
+	[ ] Ferida cirúrgica: [ ] SIM [ ] NÃO
+	
+# Esquema antimicrobiano / ATB:	
+	[ ] SIM [ ] NÃO	[Data de início - Data de Fim]
+
+# ÚLTIMAS 24 HORAS PELA ENFERMAGEM:
+PA:	FC:	SAT:		FR:		HGT:		Temp:		Diurese:
+
+Aceitação da dieta: 		[ ] SIM [ ] NÃO		[ ] Oral		[ ] Enteral/GTT	[ ] Parenteral
+Eliminações Fisiológicas?	[ ] SIM [ ] NÃO; descrição?
+# EXAME FÍSICO:
+PA:	FC:	SAT:		FR:		HGT:		Temp:		Diurese:
+AR:
+ACV:
+Abd:
+Membros:
+Neurológico:
+# Laboratório:
+	Analisar as tendências dos últimos dias / exames
+	*Deixar o mais recente bem descrito.*
+# Gasometria arterial:
+[Data]: pH; pO2; pCO2; HCO3; FiO2; Sat %
+
+#Impressão: (##Resumo do caso clínico – ideal para ser passado entre os plantonistas ou como resumo do caso clínico para outros médicos)
+
+#Conduta: (Todas as condutas, profilaxias indicadas, acompanhamento, registros de procedimentos, registros de aguardando exames, aguardando respostas de pareceres)
+
+#Rotina: (o que a rotina definiu ou discutiu do caso? Deixar bem descrito as condutas e as definições das rotinas médicas)
+
+#Previsão de Alta?	[ ] SIM [ ] NÃO		[   ] Quando: 
