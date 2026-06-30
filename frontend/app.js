@@ -1,5 +1,5 @@
 /**
- * MedAI — Core Frontend Engine (v0.1) - CORRIGIDO
+ * MedAI — Core Frontend Engine (v0.1)
  * Gerencia a carga cognitiva, regras de privilégio por perfil e estados do Flipbook.
  */
 
@@ -25,9 +25,9 @@ const interfaceEstruturaHTML = `
 
         <div style="flex:1; overflow-y:auto; font-size:14px; color:#334155;">
             <div id="conteudo-aba-checklist" class="aba-content">
-                <h4 style="margin-bottom:10px; color:#1e293b;">Checklist de Barreiras e Dispositivos</h4>
+                <h4 style="margin-bottom:15px; color:#1e293b;">Checklist de Barreiras e Dispositivos</h4>
                 <div id="checklist-inputs-zona"></div>
-                <button id="btn-salvar-checklist" class="btn-acao-principal" style="margin-top:15px;">Salvar Ajustes</button>
+                <button id="btn-salvar-checklist" class="btn-acao-principal" style="margin-top:20px;">Salvar Ajustes</button>
             </div>
 
             <div id="conteudo-aba-round" class="aba-content" style="display:none;">
@@ -74,6 +74,13 @@ estilosMestres.innerHTML = `
     .aba-btn { background:none; border:none; padding:6px 12px; cursor:pointer; font-size:13px; font-weight:600; color:#64748b; border-radius:4px; }
     .aba-btn.ativa { background:#0056b3; color:#ffffff !important; }
     .btn-acao-principal { width:100%; padding:10px; border:none; border-radius:6px; background:#0056b3; color:#ffffff; font-weight:700; cursor:pointer; }
+    
+    /* Estilização moderna dos botões Sim/Não */
+    .zona-linha-checklist { display:flex; justify-content:space-between; align-items:center; background:#f8fafc; padding:10px 14px; border-radius:8px; border:1px solid #e2e8f0; margin-bottom:10px; }
+    .grupo-botoes-radio { display:flex; gap:8px; }
+    .opcao-radio-label { display:flex; align-items:center; gap:4px; background:#ffffff; border:1px solid #cbd5e1; padding:4px 10px; border-radius:6px; font-size:12px; font-weight:700; cursor:pointer; color:#475569; transition: all 0.2s; }
+    .opcao-radio-label input { cursor:pointer; }
+    .opcao-radio-label:has(input:checked) { background:#e0f2fe; border-color:#0284c7; color:#0369a1; }
 `;
 document.head.appendChild(estilosMestres);
 
@@ -115,19 +122,20 @@ function abrirJanelaLeito(leito, iniciais, dx) {
     document.getElementById("txt-evolucao-output").innerText = `NOME INTERNO: [OCULTADO CONFORME LEI DE PRIVACIDADE]\nPRONTUÁRIO: 998421\nDIAGNÓSTICO: ${dx}\n\n[DADOS DO DIA ANTERIOR CARREGADOS - FLIPBOOK ATIVO]`;
     document.getElementById("txt-passagem-output").innerText = `${leito}: Paciente ${iniciais}, internado por ${dx}. Encontra-se estável, em ar ambiente, sem queixas álgicas agudas no momento. Plano da rotina mantém conduta clínica. No momento não há pendências imediatas.`;
 
+    // Mapeamento dos itens com os tipos de seletores adequados (Boleano Sim/Não ou Tipo Dieta)
     const itensChecklist = [
-        { id: "tvp", label: "Profilaxia TVP ativa" },
-        { id: "ulcera", label: "Profilaxia de Úlcera ativa" },
-        { id: "delirium", label: "Profilaxia de Delirium ativa" },
-        { id: "dieta", label: "Paciente recebendo dieta (Oral/SNE/GTT)" },
-        { id: "atb", label: "Antibioticoterapia em andamento" },
-        { id: "culturas", label: "Culturas coletadas/controladas" },
-        { id: "eliminacoes", label: "Eliminações fisiológicas presentes nas últimas 24h" },
-        { id: "vm", label: "Em Ventilação Mecânica (VM)" },
-        { id: "dva", label: "Em uso de Drogas Vasoativas (DVA)" },
-        { id: "alta_cirurgica", label: "Paciente com alta das especialidades cirúrgicas" },
-        { id: "sem_dor", label: "Paciente sem queixas álgicas agudas" },
-        { id: "lucido", label: "Paciente encontra-se lúcido" }
+        { id: "tvp", label: "Profilaxia TVP ativa", tipo: "s_n" },
+        { id: "ulcera", label: "Profilaxia de Úlcera ativa", tipo: "s_n" },
+        { id: "delirium", label: "Profilaxia de Delirium ativa", tipo: "s_n" },
+        { id: "dieta", label: "Paciente recebendo dieta", tipo: "dieta" },
+        { id: "atb", label: "Antibioticoterapia em andamento", tipo: "s_n" },
+        { id: "culturas", label: "Culturas coletadas/controladas", tipo: "s_n" },
+        { id: "eliminacoes", label: "Eliminações fisiológicas presentes nas últimas 24h", tipo: "s_n" },
+        { id: "vm", label: "Em Ventilação Mecânica (VM)", tipo: "s_n" },
+        { id: "dva", label: "Em uso de Drogas Vasoativas (DVA)", tipo: "s_n" },
+        { id: "alta_cirurgica", label: "Paciente com alta das especialidades cirúrgicas", tipo: "s_n" },
+        { id: "sem_dor", label: "Paciente sem queixas álgicas agudas", tipo: "s_n" },
+        { id: "lucido", label: "Paciente encontra-se lúcido", tipo: "s_n" }
     ];
 
     if (perfilAtivo === "CHEFIA") {
@@ -159,7 +167,9 @@ function abrirJanelaLeito(leito, iniciais, dx) {
         let htmlResumo = `<div style="background:#f8fafc; border:1px solid #e2e8f0; padding:15px; border-radius:6px; line-height:1.6;">`;
         htmlResumo += `<p style="color:#0056b3; font-weight:700; margin-bottom:10px;">📋 Apanhado Geral do Turno (Extraído):</p>`;
         itensChecklist.forEach(item => {
-            const statusSimulado = item.id !== "vm" && item.id !== "dva" ? "✔️ Ativo/Sim" : "❌ Inativo/Não";
+            let statusSimulado = "✔️ Sim";
+            if (item.id === "vm" || item.id === "dva") statusSimulado = "❌ Não";
+            if (item.id === "dieta") statusSimulado = "🍽️ Oral";
             htmlResumo += `<p style="margin-bottom:4px;">• <strong>${item.label}:</strong> <span style="color:#475569;">${statusSimulado}</span></p>`;
         });
         htmlResumo += `</div>`;
@@ -167,55 +177,53 @@ function abrirJanelaLeito(leito, iniciais, dx) {
         zonaChecklistInputs.innerHTML = htmlResumo;
         mudarAba('round');
     } 
-    else if (perfilAtivo === "STUDENT") {
-        btnChefia.style.display = "none";
-        btnChecklist.style.display = "block";
-        btnRound.style.display = "block";
-        btnEvolucao.style.display = "block";
-        btnPassagem.style.display = "block";
-        btnAltaRapida.style.display = "none";
-
-        btnSalvarChecklist.innerText = "Submeter Rascunho para Validação do Residente";
-        btnSalvarChecklist.style.background = "#64748b";
-        
-        let htmlForm = `<div style="display:flex; flex-direction:column; gap:12px;">`;
-        itensChecklist.forEach(item => {
-            htmlForm += `
-                <label style="display:flex; align-items:center; gap:10px; cursor:pointer; background:#f8fafc; padding:8px 12px; border-radius:6px; border:1px solid #e2e8f0;">
-                    <input type="checkbox" id="chk-${item.id}" style="width:16px; height:16px; cursor:pointer;">
-                    <span style="font-size:13px; font-weight:600; color:#334155;">${item.label}</span>
-                </label>
-            `;
-        });
-        htmlForm += `</div>`;
-        
-        zonaChecklistInputs.innerHTML = htmlForm;
-        mudarAba('checklist');
-    } 
     else {
+        // PERFIS OPERACIONAIS: STUDENT OU MEDICO (Interface de Entrada Manual Explícita)
+        if (perfilAtivo === "STUDENT") {
+            btnAltaRapida.style.display = "none";
+            btnSalvarChecklist.innerText = "Submeter Rascunho para Validação";
+            btnSalvarChecklist.style.background = "#64748b";
+        } else {
+            btnAltaRapida.style.display = "block";
+            btnSalvarChecklist.innerText = "Salvar Ajustes do Plantão";
+            btnSalvarChecklist.style.background = "#0056b3";
+        }
+
         btnChefia.style.display = "none";
         btnChecklist.style.display = "block";
         btnRound.style.display = "block";
         btnEvolucao.style.display = "block";
         btnPassagem.style.display = "block";
-        btnAltaRapida.style.display = "block";
-        
-        btnSalvarChecklist.innerText = "Salvar Ajustes do Plantão";
-        btnSalvarChecklist.style.background = "#0056b3";
-        
-        let htmlForm = `<div style="display:flex; flex-direction:column; gap:12px;">`;
+
+        let htmlForm = `<div style="display:flex; flex-direction:column;">`;
         itensChecklist.forEach(item => {
-            htmlForm += `
-                <label style="display:flex; align-items:center; gap:10px; cursor:pointer; background:#f8fafc; padding:8px 12px; border-radius:6px; border:1px solid #e2e8f0;">
-                    <input type="checkbox" id="chk-${item.id}" style="width:16px; height:16px; cursor:pointer;">
-                    <span style="font-size:13px; font-weight:600; color:#334155;">${item.label}</span>
-                </label>
-            `;
+            if (item.tipo === "s_n") {
+                htmlForm += `
+                    <div class="zona-linha-checklist">
+                        <span style="font-size:13px; font-weight:600; color:#334155;">${item.label}</span>
+                        <div class="grupo-botoes-radio">
+                            <label class="opcao-radio-label"><input type="radio" name="rad-${item.id}" value="sim"> sim</label>
+                            <label class="opcao-radio-label"><input type="radio" name="rad-${item.id}" value="nao"> não</label>
+                        </div>
+                    </div>
+                `;
+            } else if (item.tipo === "dieta") {
+                htmlForm += `
+                    <div class="zona-linha-checklist">
+                        <span style="font-size:13px; font-weight:600; color:#334155;">${item.label}</span>
+                        <div class="grupo-botoes-radio">
+                            <label class="opcao-radio-label"><input type="radio" name="rad-${item.id}" value="oral"> oral</label>
+                            <label class="opcao-radio-label"><input type="radio" name="rad-${item.id}" value="sne"> sne</label>
+                            <label class="opcao-radio-label"><input type="radio" name="rad-${item.id}" value="gtt"> gtt</label>
+                        </div>
+                    </div>
+                `;
+            }
         });
         htmlForm += `</div>`;
         
         zonaChecklistInputs.innerHTML = htmlForm;
-        mudarAba('passagem');
+        mudarAba(perfilAtivo === "STUDENT" ? 'checklist' : 'passagem');
     }
 }
 
