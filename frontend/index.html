@@ -66,6 +66,10 @@
             position: relative;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 160px;
         }
 
         .card-leito:hover {
@@ -96,6 +100,7 @@
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
+            margin-bottom: 10px;
         }
 
         .lampada {
@@ -111,7 +116,8 @@
         .lampada.vermelha { background-color: #dc3545; box-shadow: 0 0 12px #dc3545; }
         .lampada.amarela { background-color: #ffc107; box-shadow: 0 0 12px #ffc107; }
         .lampada.verde { background-color: #198754; box-shadow: 0 0 12px #198754; }
-        .lampada.apagada { background-color: #e0e0e0; box-shadow: none; }
+        .lampada.apagada { background-color: #cbd5e1; box-shadow: none; }
+        .lampada.bloqueado { background-color: #7f1d1d; box-shadow: 0 0 12px #7f1d1d; } /* Lâmpada Vinho de Bloqueio */
     </style>
 </head>
 <body>
@@ -142,31 +148,34 @@
         setInterval(atualizarRelogio, 1000);
         atualizarRelogio();
 
-        // TODOS OS LEITOS INICIAM VAZIOS AGORA (Aguardando inserção)
         function inicializarPainelVazio() {
             const containerVermelha = document.getElementById('grid-vermelha');
             const containerTrauma = document.getElementById('grid-trauma');
 
-            // Constrói os 11 leitos da Sala Vermelha limpos
             for (let i = 1; i <= 11; i++) {
                 containerVermelha.innerHTML += `
                     <div class="card-leito" id="card-leito-V${i}">
                         <div class="lampada apagada"></div>
-                        <div class="leito-numero">Leito V${i}</div>
-                        <div class="paciente-iniciais">--</div>
-                        <div class="diagnostico-resumo">Leito Vazio</div>
+                        <div style="cursor:pointer;" onclick="controladorAberturaModal('Leito V${i}')">
+                            <div class="leito-numero">Leito V${i}</div>
+                            <div class="paciente-iniciais">--</div>
+                            <div class="diagnostico-resumo">Leito Vazio</div>
+                        </div>
+                        <div class="zona-admin-chefia" style="display:none; margin-top:5px; border-top:1px solid #f1f5f9; padding-top:5px;"></div>
                     </div>
                 `;
             }
 
-            // Constrói os 6 leitos do Trauma limpos
             for (let i = 1; i <= 6; i++) {
                 containerTrauma.innerHTML += `
                     <div class="card-leito" id="card-leito-T${i}">
                         <div class="lampada apagada"></div>
-                        <div class="leito-numero">Leito T${i}</div>
-                        <div class="paciente-iniciais">--</div>
-                        <div class="diagnostico-resumo">Leito Vazio</div>
+                        <div style="cursor:pointer;" onclick="controladorAberturaModal('Leito T${i}')">
+                            <div class="leito-numero">Leito T${i}</div>
+                            <div class="paciente-iniciais">--</div>
+                            <div class="diagnostico-resumo">Leito Vazio</div>
+                        </div>
+                        <div class="zona-admin-chefia" style="display:none; margin-top:5px; border-top:1px solid #f1f5f9; padding-top:5px;"></div>
                     </div>
                 `;
             }
