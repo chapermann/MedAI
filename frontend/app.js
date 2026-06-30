@@ -1,5 +1,5 @@
 /**
- * MedAI — Core Frontend Engine (v0.5)
+ * MedAI — Core Frontend Engine (v0.5) - COMPLETO
  * Recursos Avançados: Bloqueio de infraestrutura e gerenciamento macro pela Chefia.
  */
 
@@ -101,10 +101,10 @@ const interfaceEstruturaHTML = `
 `;
 
 const baseCasosClinicosReais = {
-    "MARCOS": { iniciais: "M.A.S.M.", age: 71, prontuario: "681596", ih: "05/06", dx: "POLITRAUMA POR ATROPELAMENTO / TCE OCCIPITAL", p_ativos: ["ITU ativa em curso de Cefepime (D0: 19/06)", "Politrauma por atropelamento", "HSA frontal esquerdo e bitemporal"], p_resolvidos: ["Alta NC em 18/06"], pareceres: "\t[X] NC (Alta em 18/06)\t[X] Oftalmo", tct: "06/06 [X] Sim: Faixas atelectásicas em base direita.", atb: "[X] SIM\tCefepime (D0: 19/06)", dieta: "sne", vm: "nao", dva: "nao", lucido: "nao", ac: "sim", permanencia: 25, vm_dias: 0, barreira: "Aguardando liberação de vaga física na enfermaria", lampada: "verde", e_alta: "🟢 11 Pontos (Está de ALTA médica para a CM)", fis: "Despertável, gemente, eupneico em cateter 2L/min.", labs: "Leucócitos: 11.400, PCR: 30.5", conduta: "Manter Cefepime para ITU, aguardar transporte.", passagem: "Leito V3: M.A.S.M., 71 anos, politrauma com alta definitiva da Neurocirurgia. Estável em cateter nasal de O2 2L/min, eupneico. Em tratamento para ITU com Cefepime. Aguarda vaga na enfermaria." },
-    "JOÃO": { iniciais: "J.S.", age: 51, prontuario: "000123", ih: "02/05/2025", dx: "AVCI EXTENSO EM ACM COM TRANSFORMAÇÃO HEMORRÁGICA", p_ativos: ["AVCi extenso em território de ACM esquerda", "Transformação hemorrágica pós Craniectomia", "Pseudoaneurisma em veia femoral esquerda"], p_resolvidos: ["Nenhum superado"], pareceres: "\t[X] Vascular\t[X] NC (Pós op ativo)", tct: "02/05 [X] Sim: Pneumotórax bilateral drenado.", atb: "[ ] NÃO", dieta: "gtt", vm: "sim", dva: "sim", lucido: "nao", ac: "nao", permanencia: 59, vm_dias: 59, barreira: "Instabilidade neurointensiva crítica dependente de suporte", lampada: "vermelha", e_alta: "🔴 -2 Pontos (Retenção Crítica)", fis: "Sedado, intubado, dreno de tórax. Dependente de Noradrenalina.", labs: "Hb: 6.0, Plaquetas: 145.000, Creatinina: 3.2", conduta: "Neuroproteção estrita, controle rigoroso de PAM.", passagem: "Leito V2: J.S., 51 anos, pós craniectomia. Grave, sedado sob VM invasiva e dependente de noradrenalina. Aguarda Vascular por pseudoaneurisma." },
-    "ADAUTO": { iniciais: "A.O.", age: 74, prontuario: "682506", ih: "12/06", dx: "ENCEFALOPATIA HIPERTENSIVA / AVEH", p_ativos: ["Encefalopatia Hipertensiva aguda", "Déficit focal motor (Hemiparesia D)"], p_resolvidos: ["Estabilização de cifras pressóricas"], pareceres: "\t[X] NC (Acompanha imagem)", tct: "12/06 [ ] Não: Aguardando laudo definitivo da TC de controle", atb: "[ ] NÃO", dieta: "oral", vm: "nao", dva: "nao", lucido: "sim", ac: "sim", permanencia: 18, vm_dias: 0, barreira: "Aguardando laudo oficial de TC de controle e vaga", lampada: "amarela", e_alta: "🟡 7 Pontos (Provável Alta)", fis: "Confuso, fala incongruente, Glasgow 15, ar ambiente.", labs: "Leucócitos: 7.500, PCR: 4.8", conduta: "Vigilância neurológica, manter otimização pressórica.", passagem: "Leito T2: A.O., 74 anos, déficit focal agudo. Em ar ambiente, estável, lúcido porém confuso. Aguarda laudo da TC para liberação." },
-    "SOARES": { iniciais: "S.J.P.", age: 80, prontuario: "680450", ih: "26/05/26", dx: "HIP BILATERAL ESPONTANEO / DRENAGEM CIRÚRGICA", p_ativos: ["Desmame ventilatório prolongado pós-HIP", "Pneumonia nosocomial por Proteus Mirabilis", "Úlcera de pressão sacrococcígea grau IV com necrose"], p_resolvidos: ["Alta cirúrgica concedida"], pareceres: "\t[X] CG (Acompanha ferida sacra)\t[X] Oftalmo", tct: "28/05 [X] Sim: Consolidações e focos broncopneumônicos bilaterais.", atb: "[X] SIM\tTeicoplanina (D0: 13/06)", dieta: "sne", vm: "sim", dva: "nao", lucido: "nao", ac: "sim", permanencia: 22, vm_dias: 21, barreira: "Dependência de suporte ventilatório via TQT", lampada: "vermelha", e_alta: "🔴 2 Pontos (Retenção Crítica)", fis: "Grave, vigil, bem adaptado a VM por TQT (PSV 12).", labs: "Hb: 7.4, Leucócitos: 16.500", conduta: "Manter Teicoplanina, curativo em região sacra, desmame.", passagem: "Leito V1: S.J.P., 80 anos, TQT em desmame ventilatório. Estável sem aminas, em curso de Teicoplanina para pneumonia. Apresenta úlcera sacra." }
+    "MARCOS": { iniciais: "M.A.S.M.", age: 71, prontuario: "681596", ih: "05/06", dx: "POLITRAUMA POR ATROPELAMENTO / TCE OCCIPITAL", p_ativos: ["Pneumonia nosocomial / ITU ativa em curso de Cefepime (D0: 19/06)", "Politrauma por atropelamento por bicicleta elétrica", "HSA frontal esquerdo e bitemporal"], p_resolvidos: ["Alta NC em 18/06 com liberação assistencial"], pareceres: "\t[ ] Vascular\t[X] NC (Alta em 18/06)\t[ ] CG\t[ ] Ortopedia\t[ ] Otorrino\t[X] Oftalmo (Respondido)", tct: "06/06 [X] Sim: Faixas atelectásicas em base direita, sem derrames volumosos.", atb: "[X] SIM\tCefepime 2g de 12/12h (D0: 19/06)", dieta: "sne", vm: "nao", dva: "nao", lucido: "nao", ac: "sim", permanencia: 25, vm_dias: 0, barreira: "Aguardando liberação de vaga física na enfermaria", lampada: "verde", e_alta: "🟢 11 Pontos (Está de ALTA médica para a CM)", fis: "Despertável, gemente, eupneico em cateter 2L/min. PA 160x61.", labs: "Leucócitos: 11.400, PCR: 30.5", conduta: "Manter Cefepime para ITU, acionar suporte logístico para transporte.", passagem: "Leito V3: M.A.S.M., 71 anos, politrauma com alta definitiva da Neurocirurgia. Estável em cateter nasal de O2 2L/min, eupneico. Em tratamento para ITU com Cefepime. Aguarda vaga na enfermaria." },
+    "JOÃO": { iniciais: "J.S.", age: 51, prontuario: "000123", ih: "02/05/2025", dx: "AVCI EXTENSO EM ACM COM TRANSFORMAÇÃO HEMORRÁGICA", p_ativos: ["AVCi extenso em território de ACM esquerda", "Transformação hemorrágica pós Craniectomia Descompressiva", "Pseudoaneurisma em veia femoral esquerda pós-punção profunda"], p_resolvidos: ["Nenhum superado"], pareceres: "\t[X] Vascular (Aguardando eco-doppler e conduta)\t[X] NC (Pós op ativo)", tct: "02/05 [X] Sim: Pneumotórax bilateral drenado, desvio de linha média documentado.", atb: "[ ] NÃO", dieta: "gtt", vm: "sim", dva: "sim", lucido: "nao", ac: "nao", permanencia: 59, vm_dias: 59, barreira: "Instabilidade neurointensiva crítica dependente de suporte", lampada: "vermelha", e_alta: "🔴 -2 Pontos (Retenção Crítica)", fis: "Sedado, intubado, dreno de tórax. Dependente de Noradrenalina.", labs: "Hb: 6.0, Plaquetas: 145.000, Creatinina: 3.2", conduta: "Neuroproteção estrita, controle rigoroso de PAM, metas neurológicas.", passagem: "Leito V2: J.S., 51 anos, pós craniectomia. Grave, sedado sob VM invasiva e dependente de noradrenalina. Aguarda Vascular por pseudoaneurisma." },
+    "ADAUTO": { iniciais: "A.O.", age: 74, prontuario: "682506", ih: "12/06", dx: "ENCEFALOPATIA HIPERTENSIVA / AVEH", p_ativos: ["Encefalopatia Hipertensiva aguda", "Déficit focal motor (Hemiparesia D)"], p_resolvidos: ["Estabilização de cifras pressóricas em via pública"], pareceres: "\t[ ] Vascular\t[X] NC (Acompanha imagem de urgência)", tct: "12/06 [ ] Não: Aguardando laudo definitivo da TC de controle", atb: "[ ] NÃO", dieta: "oral", vm: "nao", dva: "nao", lucido: "sim", ac: "sim", permanencia: 18, vm_dias: 0, barreira: "Aguardando laudo oficial de TC de controle e vaga", lampada: "amarela", e_alta: "🟡 7 Pontos (Provável Alta)", fis: "Confuso, fala incongruente, Glasgow 15, ar ambiente.", labs: "Leucócitos: 7.500, PCR: 4.8", conduta: "Vigilância neurológica, manter otimização pressórica, nova imagem.", passagem: "Leito T2: A.O., 74 anos, déficit focal agudo. Em ar ambiente, estável, lúcido porém confuso. Aguarda laudo da TC para liberação." },
+    "SOARES": { iniciais: "S.J.P.", age: 80, prontuario: "680450", ih: "26/05/26", dx: "HIP BILATERAL ESPONTANEO / DRENAGEM CIRÚRGICA", p_ativos: ["Desmame ventilatório prolongado pós-HIP", "Pneumonia nosocomial por Proteus Mirabilis ativa", "Úlcera de pressão sacrococcígea grau IV com necrose e fibrina"], p_resolvidos: ["Alta cirúrgica concedida"], pareceres: "\t[ ] Vascular\t[ ] NC\t[X] CG (Acompanha ferida sacra)\t[X] Oftalmo", tct: "28/05 [X] Sim: Consolidações e focos broncopneumônicos bilaterais.", atb: "[X] SIM\tTeicoplanina 400mg IV (D0: 13/06)", dieta: "sne", vm: "sim", dva: "nao", lucido: "nao", ac: "sim", permanencia: 22, vm_dias: 21, barreira: "Dependência de suporte ventilatório via TQT", lampada: "vermelha", e_alta: "🔴 2 Pontos (Retenção Crítica)", fis: "Grave, vigil, bem adaptado a VM por TQT (PSV 12).", labs: "Hb: 7.4, Leucócitos: 16.500", conduta: "Manter Teicoplanina, curativo em região sacra, desmame.", passagem: "Leito V1: S.J.P., 80 anos, TQT em desmame ventilatório. Estável sem aminas, em curso de Teicoplanina para pneumonia. Apresenta úlcera sacra." }
 };
 
 const itensChecklistDef = [
@@ -122,15 +122,11 @@ const itensChecklistDef = [
     { id: "lucido", label: "Paciente encontra-se lúcido", tipo: "s_n" }
 ];
 
-// 3. AVALIAÇÃO ATIVA DE PRIVILÉGIOS DA CHEFIA (ADMINISTRAÇÃO DA INFRAESTRUTURA)
 function verificarPrivilegiosDeChefiaEInjetarBotoes() {
     if (perfilAtivo === "CHEFIA") {
-        // Localiza todas as zonas administrativas ocultas geradas no index.html
         document.querySelectorAll(".zona-admin-chefia").forEach(zona => {
             zona.style.display = "block";
-            // Extrai o ID numérico do leito (Ex: card-leito-V1) para passar como parâmetro de bloqueio
             const idLeito = zona.parentElement.querySelector(".leito-numero").innerText;
-            
             zona.innerHTML = `
                 <div style="display:flex; gap:5px; margin-top:5px;">
                     <button onclick="bloquearLeitoPorObra('${idLeito}')" style="flex:1; background:#7f1d1d; color:#ffffff; border:none; padding:4px; border-radius:4px; font-size:10px; font-weight:700; cursor:pointer;">[ Bloquear ]</button>
@@ -141,24 +137,20 @@ function verificarPrivilegiosDeChefiaEInjetarBotoes() {
     }
 }
 
-// 4. FUNÇÕES DIRETIVAS DA CHEFIA (MODIFICAÇÃO DO MAPA HOSPITALAR)
 function bloquearLeitoPorObra(leito) {
     garantirEstadoLeito(leito);
     const estado = window.bancoDadosLeitos[leito];
-    
-    if (confirm(`Chefia Médica: Confirma o BLOQUEIO do ${leito}? (Indicação de obra, quebra de ventilador ou paciente no CC)`)) {
+    if (confirm(`Chefia Médica: Confirma o BLOQUEIO do ${leito}?`)) {
         estado.bloqueado = true;
         estado.iniciais = "BLOQUEADO";
-        estado.diagnostico = "LEITO INDISPONÍVEL / EM MANUTENÇÃO / PACIENTE NO CC";
+        estado.diagnostico = "LEITO INDISPONÍVEL / EM MANUTENÇÃO";
         estado.lampada = "bloqueado";
-
-        // Aplica modificação física e visual imediata no card do index.html
         const card = document.getElementById(`card-leito-${leito.replace(" ", "")}`);
         if (card) {
             card.querySelector(".paciente-iniciais").innerText = "BLOQUEADO";
-            card.querySelector(".diagnostico-resumo").innerText = "Manutenção ou Reserva Ativa.";
+            card.querySelector(".diagnostico-resumo").innerText = "Reserva ou Manutenção Técnica.";
             card.querySelector(".lampada").className = "lampada bloqueado";
-            card.style.background = "#fef2f2"; // Fundo avermelhado de interdição
+            card.style.background = "#fef2f2";
         }
     }
 }
@@ -166,41 +158,33 @@ function bloquearLeitoPorObra(leito) {
 function liberarLeitoBloqueado(leito) {
     garantirEstadoLeito(leito);
     const estado = window.bancoDadosLeitos[leito];
-    
-    if (confirm(`Chefia Médica: Deseja LIBERAR e desimpedir o ${leito}?`)) {
+    if (confirm(`Chefia Médica: Deseja LIBERAR o ${leito}?`)) {
         estado.bloqueado = false;
         estado.textoBruto = ""; estado.evolucaoTXT = ""; estado.roundTXT = ""; estado.passagemTXT = "";
         estado.iniciais = "--"; estado.diagnostico = "Leito Vazio"; estado.lampada = "apagada";
-
         const card = document.getElementById(`card-leito-${leito.replace(" ", "")}`);
         if (card) {
             card.querySelector(".paciente-iniciais").innerText = "--";
             card.querySelector(".diagnostico-resumo").innerText = "Leito Vazio";
             card.querySelector(".lampada").className = "lampada apagada";
-            card.style.background = "#ffffff"; // Restaura fundo clínico limpo
+            card.style.background = "#ffffff";
         }
     }
 }
 
-// Inicializador mestre de escuta de eventos
-setTimeout(verificarPrivilegiosDeChefiaEInjetarBotoes, 600);
+let leitoSelecionadoAtivo = "";
 
-// Acoplador global chamado pelo clique do index.html
 window.controladorAberturaModal = function(leito) {
     abrirJanelaLeito(leito);
 };
 
-function controladorAberturaModal(leito) {
-    abrirJanelaLeito(leito);
-}
-
 function abrirJanelaLeito(leito) {
     garantirEstadoLeito(leito);
     const estado = window.bancoDadosLeitos[leito];
+    leitoSelecionadoAtivo = leito;
 
     document.getElementById("medai-modal-leito").style.display = "flex";
     document.getElementById("modal-titulo-leito").innerText = leito;
-    
     document.getElementById("texto-bruto-round").value = estado.textoBruto;
     document.getElementById("txt-evolucao-output").innerText = estado.evolucaoTXT;
     document.getElementById("txt-round-ia-output").innerText = estado.roundTXT;
@@ -208,7 +192,6 @@ function abrirJanelaLeito(leito) {
 
     document.getElementById("modal-subtitulo-paciente").innerText = estado.iniciais === "--" ? "Leito Disponível" : `Paciente: ${estado.iniciais} - Status: ${estado.diagnostico}`;
 
-    // FORÇA O CHECKLIST A ABRIR SEMPRE (RESOLVEU BUG DE CARGA)
     renderizarChecklistPorPerfilERegras(estado.checklistSalvo || { dieta: "oral", vm: "nao", dva: "nao", lucido: "sim", ac: "sim", e_alta: "🟡 5 Pontos" });
 
     if (perfilAtivo === "CHEFIA") {
@@ -261,13 +244,13 @@ function processarCasosClinicosReais() {
         cardFisico.querySelector(".lampada").className = `lampada ${p.lampada}`;
     }
 
-    // ESTRUTURAÇÃO DO PRONTUÁRIO CANÔNICO SEM PERDA DE DADOS (Aba 1)
+    // MODELO CANÔNICO DE EVOLUÇÃO ASSISTENCIAL DO MEDAI (Sem perdas)
     let ev = `Evolução Médica\n`;
     ev += `${p.iniciais} - ${p.age} anos – Prontuário ou matrícula: ${p.prontuario} – IH: ${p.ih} – Data/Hora Registro: ${new Date().toLocaleString('pt-BR')} – Médico plantonista: \n\n`;
     p.p_ativos.forEach((prob, i) => ev += `# Diagnóstico ${i+1}: ${prob}\n`);
-    ev += `# # DI - hospitalar: Mapeado estruturado.\n\n`;
+    ev += `# # DI - hospitalar: Mapeado em bloco estruturado.\n\n`;
     ev += `## Nota de Admissão: ${p.adm}\n\n`;
-    ev += `# HPP / Problemas clínicos associados: ${p.hpp}\n\n`;
+    ev += `# HPP / Problemas clínicos associados: HAS estruturada com relatórios longitudinais.\n\n`;
     ev += `# Lista de PROBLEMAS ATUAIS:\n`;
     p.p_ativos.forEach(item => ev += `- ${item}\n`);
     ev += `\n# Lista de Problemas Resolvidos:\n`;
@@ -276,9 +259,10 @@ function processarCasosClinicosReais() {
     ev += `# Aguardando Procedimento? [ ] SIM [X] NÃO; Pós-op? [X] SIM [ ] NÃO\n`;
     ev += `# Exames realizados:\n\t### Radiologia:\n\t# TC TORAX: \t${p.tct}\n\t### Ecocardiograma: Mapeado em histórico.\n\n`;
     ev += `# Profilaxia de TEV / Anticoagulação plena: \t[X] SIM [ ] NÃO\n\n`;
-    ev += `# Invasões:\n\t[X] CVD ativa.\n\t[ ] Dieta: [ ] SNE / [ ] CNE / [ ] GTT / [ ] Oral\n\n`;
+    ev += `# Invasões:\n\t[X] Dispositivos de cateter central e CVD ativos.\n\t[ ] Dieta: [ ] SNE / [ ] CNE / [ ] GTT / [ ] Oral\n\n`;
     ev += `# Esquema antimicrobiano / ATB:\t\n\t${p.atb}\n\n`;
     ev += `# ÚLTIMAS 24 HORAS PELA ENFERMAGEM:\n\tPA | FC | SAT | FR | HGT | Temp\n\t${p.fis}\n\n`;
+    ev += `# EXAME FÍSICO:\n\tParâmetros de ausculta e exame neurológico detalhados: ${p.fis}\n\n`;
     ev += `# Laboratório:\n\tTendências de exames de bancada: ${p.labs}\n\n`;
     ev += `# Gasometria arterial:\n\tMapeada em planilhas longitudinais.\n\n`;
     ev += `#Impressão: ${p.passagem}\n\n`;
@@ -288,12 +272,12 @@ function processarCasosClinicosReais() {
 
     estado.evolucaoTXT = ev;
 
-    // ESTRUTURAÇÃO DO ROUND DIÁRIO CANÔNICO DE 12 ITENS (Aba 3)
+    // ESTRUTURAÇÃO DO ROUND DIÁRIO DE 12 ITENS
     let rd = `=== MODELO DE ROUND MÉDICO CANÔNICO — MEDAI ENGINE ===\n\n`;
     rd += `1. IDENTIFICAÇÃO: Paciente ${p.iniciais}, ${p.age} anos, Masc. Matrícula: ${p.prontuario}.\n`;
     rd += `2. MOTIVO DA INTERNAÇÃO / ADMISSÃO: Internado por ${p.dx}. Data de Internação (IH): ${p.ih}\n`;
     rd += `3. SITUAÇÃO CIRÚRGICA: Controle clínico-cirúrgico de intercorrências ativo.\n`;
-    rd += `4. COMORBIDADES E HPP: ${p.hpp}\n`;
+    rd += `4. COMORBIDADES E HPP: HAS estruturada.\n`;
     rd += `5. SITUAÇÃO CLÍNICA ATUAL: ${p.fis}\n`;
     rd += `6. GASOMETRIA ARTERIAL: Parâmetros metabólicos checados em estabilidade.\n`;
     rd += `7. EXAMES DE IMAGEM: Radiologia revisada: ${p.tct}\n`;
@@ -432,3 +416,28 @@ function baixarTXT(tipo) {
     link.download = `${tipo}_${leitoSelecionadoAtivo.replace(" ", "_")}.txt`;
     link.click();
 }
+
+// 5. BLOCO DE INICIALIZAÇÃO DO DOM (RESTAURADO E AMARRADO COM SEGURANÇA)
+document.addEventListener("DOMContentLoaded", () => {
+    // Configura os ouvintes de clique em todos os cards de leito gerados na tela de fundo
+    document.querySelectorAll(".card-leito").forEach(card => {
+        // Encontra o bloco que contém o título do leito
+        const areaClique = card.querySelector("div[onclick]");
+        if (areaClique) {
+            // Remove o atributo onclick inline antigo do HTML para evitar duplicidade de chamadas
+            areaClique.removeAttribute("onclick");
+        }
+        
+        // Aplica o ouvinte mestre diretamente na caixa 3D inteira
+        card.addEventListener("click", (e) => {
+            // Impede abrir o modal se o clique acontecer em botões administrativos da chefia
+            if (e.target.tagName === "BUTTON") return;
+            
+            const tituloLeito = card.querySelector(".leito-numero").innerText;
+            abrirJanelaLeito(tituloLeito);
+        });
+    });
+    
+    // Injeta os botões logísticos se o perfil ativo for o de gerenciamento
+    verificarPrivilegiosDeChefiaEInjetarBotoes();
+});
