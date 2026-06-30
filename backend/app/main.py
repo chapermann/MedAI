@@ -28,6 +28,7 @@ app.add_middleware(
 
 # 3. Registro das Rotas Assistenciais da API
 app.include_router(ai_operations.router, prefix=settings.API_V1_STR)
+app.include_router(pacientes.router, prefix=settings.API_V1_STR)
 
 # 4. Rota básica de Health Check para testar a saúde do Backend
 @app.get("/", tags=["Health Check"])
