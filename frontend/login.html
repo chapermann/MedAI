@@ -239,11 +239,15 @@
         </div>
     </div>
 
-    <script>
+<script>
         function fazerLogin(perfil) {
-            // Guarda o perfil selecionado no armazenamento do navegador (SessionStorage)
+            // Guarda o perfil funcional selecionado para o turno atual
             sessionStorage.setItem('medai_perfil', perfil);
-            // Redireciona o usuário para o painel de leitos (index.html) que criamos anteriormente
+            
+            // Define o usuário fictício logado e limpa estados anteriores
+            sessionStorage.setItem('medai_usuario_nome', 'Dr. Fernando');
+            
+            // Redireciona para o painel de monitoramento do plantão
             window.location.href = 'index.html';
         }
     </script>
