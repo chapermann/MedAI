@@ -15,15 +15,18 @@
         }
 
         body {
-            background-color: #ffffff;
+            background-color: #f8f9fa;
             color: #333333;
             padding: 20px;
         }
 
         header {
-            border-bottom: 2px solid #f0f2f5;
-            padding-bottom: 15px;
-            margin-bottom: 30px;
+            border-bottom: 2px solid #e2e8f0;
+            background: #ffffff;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -34,22 +37,64 @@
             color: #0056b3;
         }
 
+        .painel-info-turno {
+            font-size: 13px;
+            color: #475569;
+            background: #f1f5f9;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            margin-top: 5px;
+            display: inline-block;
+        }
+
         .timestamp {
             font-size: 14px;
-            color: #666666;
+            color: #64748b;
+            text-align: right;
+            font-weight: 600;
+        }
+
+        /* Zona de comandos da direção */
+        .barra-macro-chefia {
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            display: none;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn-chefia-acao {
+            background: #d97706;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 12px;
         }
 
         .setor-container {
             margin-bottom: 40px;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
         }
 
         .setor-titulo {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 700;
-            margin-bottom: 15px;
-            color: #495057;
+            margin-bottom: 20px;
+            color: #1e293b;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            border-left: 4px solid #0056b3;
+            padding-left: 10px;
         }
 
         .grid-leitos {
@@ -60,11 +105,11 @@
 
         .card-leito {
             background: #ffffff;
-            border: 1px solid #e0e0e0;
+            border: 1px solid #e2e8f0;
             border-radius: 8px;
             padding: 20px;
             position: relative;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
             transition: transform 0.2s, box-shadow 0.2s;
             display: flex;
             flex-direction: column;
@@ -74,7 +119,7 @@
 
         .card-leito:hover {
             transform: translateY(-4px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08);
         }
 
         .leito-numero {
@@ -87,12 +132,13 @@
         .paciente-iniciais {
             font-size: 16px;
             font-weight: 600;
+            color: #1e293b;
             margin-bottom: 5px;
         }
 
         .diagnostico-resumo {
             font-size: 13px;
-            color: #6c757d;
+            color: #64748b;
             line-height: 1.4;
             height: 38px;
             overflow: hidden;
@@ -110,14 +156,13 @@
             position: absolute;
             top: 20px;
             right: 20px;
-            box-shadow: 0 0 8px rgba(0,0,0,0.1);
         }
 
         .lampada.vermelha { background-color: #dc3545; box-shadow: 0 0 12px #dc3545; }
         .lampada.amarela { background-color: #ffc107; box-shadow: 0 0 12px #ffc107; }
         .lampada.verde { background-color: #198754; box-shadow: 0 0 12px #198754; }
         .lampada.apagada { background-color: #cbd5e1; box-shadow: none; }
-        .lampada.bloqueado { background-color: #7f1d1d; box-shadow: 0 0 12px #7f1d1d; } /* Lâmpada Vinho de Bloqueio */
+        .lampada.bloqueado { background-color: #7f1d1d; box-shadow: 0 0 12px #7f1d1d; }
     </style>
 </head>
 <body>
@@ -125,21 +170,33 @@
     <header>
         <div>
             <h1>MedAI — Painel de Monitoramento</h1>
-            <p style="color: #666; font-size: 14px;">Organizando a informação para que a Medicina possa acontecer.</p>
+            <div class="painel-info-turno" id="info-perfil-visto">Perfil: Carregando...</div>
         </div>
-        <div class="timestamp" id="live-clock">Atualizando...</div>
+        <div class="timestamp">
+            <div id="live-clock">Atualizando...</div>
+            <div id="contadores-macro" style="font-size: 12px; color: #475569; margin-top: 5px;"></div>
+        </div>
     </header>
 
+    <!-- Zona de privilégios operacionais da chefia -->
+    <div class="barra-macro-chefia" id="painel-macro-chefia">
+        <span style="font-size: 13px; font-weight: 700; color: #92400e;">⚙️ CONTROLE DE INFRAESTRUTURA:</span>
+        <button class="btn-chefia-acao" onclick="adicionarLeitoDinamico('V')">+ Adicionar Leito Sala Vermelha</button>
+        <button class="btn-chefia-acao" onclick="adicionarLeitoDinamico('T')">+ Adicionar Leito Trauma</button>
+        <button class="btn-chefia-acao" style="background:#7f1d1d;" onclick="removerUltimoLeitoDinamico()">- Remover Último Leito</button>
+    </div>
+
     <div class="setor-container">
-        <div class="setor-titulo">Sala Vermelha (11 Leitos)</div>
+        <div class="setor-titulo" id="titulo-vermelha">Sala Vermelha</div>
         <div class="grid-leitos" id="grid-vermelha"></div>
     </div>
 
     <div class="setor-container">
-        <div class="setor-titulo">Retaguarda do Trauma (6 Leitos)</div>
+        <div class="setor-titulo" id="titulo-trauma">Retaguarda do Trauma</div>
         <div class="grid-leitos" id="grid-trauma"></div>
     </div>
 
+    <script src="app.js"></script>
     <script>
         function atualizarRelogio() {
             const agora = new Date();
@@ -147,42 +204,6 @@
         }
         setInterval(atualizarRelogio, 1000);
         atualizarRelogio();
-
-        function inicializarPainelVazio() {
-            const containerVermelha = document.getElementById('grid-vermelha');
-            const containerTrauma = document.getElementById('grid-trauma');
-
-            for (let i = 1; i <= 11; i++) {
-                containerVermelha.innerHTML += `
-                    <div class="card-leito" id="card-leito-V${i}">
-                        <div class="lampada apagada"></div>
-                        <div style="cursor:pointer;" onclick="controladorAberturaModal('Leito V${i}')">
-                            <div class="leito-numero">Leito V${i}</div>
-                            <div class="paciente-iniciais">--</div>
-                            <div class="diagnostico-resumo">Leito Vazio</div>
-                        </div>
-                        <div class="zona-admin-chefia" style="display:none; margin-top:5px; border-top:1px solid #f1f5f9; padding-top:5px;"></div>
-                    </div>
-                `;
-            }
-
-            for (let i = 1; i <= 6; i++) {
-                containerTrauma.innerHTML += `
-                    <div class="card-leito" id="card-leito-T${i}">
-                        <div class="lampada apagada"></div>
-                        <div style="cursor:pointer;" onclick="controladorAberturaModal('Leito T${i}')">
-                            <div class="leito-numero">Leito T${i}</div>
-                            <div class="paciente-iniciais">--</div>
-                            <div class="diagnostico-resumo">Leito Vazio</div>
-                        </div>
-                        <div class="zona-admin-chefia" style="display:none; margin-top:5px; border-top:1px solid #f1f5f9; padding-top:5px;"></div>
-                    </div>
-                `;
-            }
-        }
-
-        inicializarPainelVazio();
     </script>
-    <script src="app.js"></script>
 </body>
 </html>
