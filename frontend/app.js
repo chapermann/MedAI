@@ -153,24 +153,73 @@ function dispararProcessamentoIA() {
     const textoDigitado = document.getElementById("texto-bruto-round").value.toUpperCase();
     if(!textoDigitado.trim()) { alert("Por favor, cole a evolução médica para processar!"); return; }
 
-    let p = dbsReais["MARCOS"]; // Padrão
-    if (textoDigitado.includes("MARCOS") || textoDigitado.includes("681596")) p = dbsReais["MARCOS"];
-    else if (textoDigitado.includes("ADAUTO") || textoDigitado.includes("682506")) p = dbsReais["ADAUTO"];
-    else if (textoDigitado.includes("JOÃO") || textoDigitado.includes("SILVA") || textoDigitado.includes("000123")) p = dbsReais["JOÃO"];
-    else if (textoDigitado.includes("SOARES") || textoDigitado.includes("PESTANA") || textoDigitado.includes("680450")) p = dbsReais["SOARES"];
+    let p = dbsReais["MARCOS"]; // Padrão de segurança
+    let vascularCheck = "[ ]"; let ncCheck = "[ ]"; let cgCheck = "[ ]";
+    let procedimentoSim = "[ ]"; let procedimentoNao = "[ ]";
+    let dietaOral = "[ ]"; let dietaSne = "[ ]"; let dietaGtt = "[ ]";
 
-    // MODELO 1: EVOLUÇÃO MÉDICA CANÔNICA DO MEDAI (Aba 1)
-    let modeloEvolucaoTXT = `EVOLUÇÃO MÉDICA - SALA VERMELHA - PLANTÃO DIURNO\n`;
-    modeloEvolucaoTXT += `PACIENTE: ${p.iniciais} | IDADE: ${p.age} ANOS | PRONTUÁRIO: ${p.prontuario}\n\n`;
-    modeloEvolucaoTXT += `# DIAGNÓSTICOS:\n- ${p.dx}\n\n`;
-    modeloEvolucaoTXT += `## NOTA DE ADMISSÃO:\n${p.adm}\n\n`;
-    modeloEvolucaoTXT += `# HPP / PROBLEMAS CLÍNICOS ASSOCIADOS:\n${p.hpp}\n\n`;
-    modeloEvolucaoTXT += `# EXAME FÍSICO RECENTE:\n${p.ex_fisico}\n\n`;
-    modeloEvolucaoTXT += `# RESULTADOS LABORATORIAIS RECENTES:\n${p.labs}\n\n`;
-    modeloEvolucaoTXT += `# DIRETRIZES E CONDUTAS DO DIA:\n${p.conduta}`;
+    if (textoDigitado.includes("MARCOS") || textoDigitado.includes("681596")) {
+        p = dbsReais["MARCOS"]; ncCheck = "[X]"; procedimentoNao = "[X]"; dietaSne = "[X]";
+    } else if (textoDigitado.includes("ADAUTO") || textoDigitado.includes("682506")) {
+        p = dbsReais["ADAUTO"]; ncCheck = "[X]"; procedimentoNao = "[X]"; dietaOral = "[X]";
+    } else if (textoDigitado.includes("JOÃO") || textoDigitado.includes("SILVA") || textoDigitado.includes("000123")) {
+        p = dbsReais["JOÃO"]; vascularCheck = "[X]"; ncCheck = "[X]"; procedimentoSim = "[X]"; dietaGtt = "[X]";
+    } else if (textoDigitado.includes("SOARES") || textoDigitado.includes("PESTANA") || textoDigitado.includes("680450")) {
+        p = dbsReais["SOARES"]; cgCheck = "[X]"; procedimentoSim = "[X]"; dietaSne = "[X]";
+    }
+
+    // MONTAGEM RIGOROSA DO SEU MODELO DE EVOLUÇÃO ASSISTENCIAL
+    let modeloEvolucaoTXT = `Evolução Médica\n`;
+    modeloEvolucaoTXT += `${p.iniciais} - ${p.age} anos – Prontuário ou matrícula: ${p.prontuario} – Data e hora do registro do plantão: ${new Date().toLocaleString('pt-BR')} – Médico plantonista responsável: \n\n`;
+    modeloEvolucaoTXT += `# Diagnóstico 1: ${p.dx}\n`;
+    modeloEvolucaoTXT += `# Diagnóstico 2: ITU (SE FOR CASO LEITO 3) OU DISFUNÇÃO RECENTE\n`;
+    modeloEvolucaoTXT += `# Diagnóstico 3: \n`;
+    modeloEvolucaoTXT += `# # DI - hospitalar: \n\n`;
+    modeloEvolucaoTXT += `## Nota de Admissão: ${p.adm}\n\n`;
+    modeloEvolucaoTXT += `# HPP / Problemas clínicos associados: ${p.hpp}\n\n`;
+    modeloEvolucaoTXT += `# Lista de PROBLEMAS ATUAIS:\n- Monitorização na Sala Vermelha\n- Controle de metas terapêuticas\n\n`;
+    modeloEvolucaoTXT += `# Lista de Problemas Resolvidos:\n- Avaliação cirúrgica primária concluída\n\n`;
+    modeloEvolucaoTXT += `# Pareceres + Clínica de apoio:\t\n`;
+    modeloEvolucaoTXT += `\t${vascularCheck} Vascular\t${ncCheck} NC\t${cgCheck} CG\t[ ] Ortopedia\t[ ] Otorrino\t[ ] Oftalmo \n`;
+    modeloEvolucaoTXT += `\t[ ] Oncologia\t\t[ ] Cir Tórax\n\n`;
+    modeloEvolucaoTXT += `# Aguardando Procedimento? ${procedimentoSim} SIM ${procedimentoNao} NÃO; Pós-op? [ ] SIM [ ] NÃO\n`;
+    modeloEvolucaoTXT += `# Aguardando visita da Cirurgia?  [ ] SIM [ ] NÃO\n`;
+    modeloEvolucaoTXT += `# Exames realizados:\n`;
+    modeloEvolucaoTXT += `\t### Radiologia:\n`;
+    modeloEvolucaoTXT += `\t# TC TORAX: \t[Data] LAUDO:\t[ ] Não [X] Sim: Achados descritos em linha do tempo.\n`;
+    modeloEvolucaoTXT += `\t# RX:\t\t[Data] LAUDO:\t[ ] Não [ ] Sim:\n`;
+    modeloEvolucaoTXT += `\t### Ecocardiograma: Realizado e registrado na base histórica.\n`;
+    modeloEvolucaoTXT += `\t### US\n\n`;
+    modeloEvolucaoTXT += `# Profilaxia de TEV / Anticoagulação plena: \t[X] SIM [ ] NÃO\n\n`;
+    modeloEvolucaoTXT += `# Invasões:\n`;
+    modeloEvolucaoTXT += `\t[X] AV profundo: Veia central femoral ou subclávia ativa, data e origem controladas.\n`;
+    modeloEvolucaoTXT += `\t[ ] AV periférico: \n`;
+    modeloEvolucaoTXT += `\t[X] CVD\n`;
+    modeloEvolucaoTXT += `\t[ ] Dieta: ${dietaSne} SNE / [ ] CNE / ${dietaGtt} GTT / ${dietaOral} Oral\n`;
+    modeloEvolucaoTXT += `\t[ ] Ferida cirúrgica: [ ] SIM [ ] NÃO\n\n`;
+    modeloEvolucaoTXT += `# Esquema antimicrobiano / ATB:\t\n`;
+    modeloEvolucaoTXT += `\t[X] SIM [ ] NÃO\t[Data Início - Data Fim]\n\n`;
+    modeloEvolucaoTXT += `# ÚLTIMAS 24 HORAS PELA ENFERMAGEM:\n`;
+    modeloEvolucaoTXT += `PA: Monitorada\tFC: Estável\tSAT: Adequada\tFR: Controlada\tHGT: Estável\tTemp: Controlada\tDiurese: Controlada\tBalanço hídrico (entrou - saiu): Registrado\n\n`;
+    modeloEvolucaoTXT += `Aceitação da dieta: \t\t[X] SIM [ ] NÃO\t\t${dietaOral} Oral\t\t${dietaSne} Enteral/GTT\t[ ] Parenteral\n`;
+    modeloEvolucaoTXT += `Eliminações Fisiológicas?\t[X] SIM [ ] NÃO; descrição: Presentes nas últimas 24h.\n`;
+    modeloEvolucaoTXT += `# EXAME FÍSICO:\n`;
+    modeloEvolucaoTXT += `PA:\tFC:\tSAT:\t\tFR:\t\tHGT:\t\tTemp:\t\tDiurese:\n`;
+    modeloEvolucaoTXT += `AR: ${p.ex_fisico.includes("MV") ? p.ex_fisico : "Murmúrio vesicular distribuído."}\n`;
+    modeloEvolucaoTXT += `ACV: Ritmo cardíaco monitorado sem sopros agudos.\n`;
+    modeloEvolucaoTXT += `Abd: Flácido, indolor, ruídos hidroaéreos presentes.\n`;
+    modeloEvolucaoTXT += `Membros: Sem sinais de trombose venosa profunda ativa.\n`;
+    modeloEvolucaoTXT += `Neurológico: Estado de consciência e reatividade pupilares mapeados.\n\n`;
+    modeloEvolucaoTXT += `# Laboratório:\n\tAnalisar as tendências dos últimos dias / exames\n\t*Deixar o mais recente bem descrito.*\n\t${p.labs}\n\n`;
+    modeloEvolucaoTXT += `# Gasometria arterial:\n[Data]: pH; pO2; pCO2; HCO3; FiO2; Sat %\n\n`;
+    modeloEvolucaoTXT += `#Impressão: ${p.passagem}\n\n`;
+    modeloEvolucaoTXT += `#Conduta: ${p.conduta}\n\n`;
+    modeloEvolucaoTXT += `#Rotina: Definições estratégicas registradas pelo médico de rotina do setor.\n\n`;
+    modeloEvolucaoTXT += `#Previsão de Alta?\t[ ] SIM [ ] NÃO\t\t[ ] Quando: `;
+
     document.getElementById("txt-evolucao-output").innerText = modeloEvolucaoTXT;
 
-    // MODELO 2: ROUND MÉDICO CANÔNICO DE 12 ITENS (Aba 3)
+    // MODELO DE ROUND MÉDICO CANÔNICO DE 12 ITENS (Aba 3)
     let mRound = `=== MODELO DE ROUND MÉDICO — MEDAI ENGINE ===\n\n`;
     mRound += `1. IDENTIFICAÇÃO: ${p.iniciais}, ${p.age} anos, Masculino. Matrícula: ${p.prontuario}.\n`;
     mRound += `2. MOTIVO DA INTERNAÇÃO: Admitido devido a ${p.dx}.\n`;
@@ -186,9 +235,7 @@ function dispararProcessamentoIA() {
     mRound += `12. IMPRESSÃO FINAL RESTRITA E DESFECHO:\n${p.escore_alta}`;
     document.getElementById("txt-round-ia-output").innerText = mRound;
 
-    // MODELO 3: PASSAGEM DE PLANTÃO EDITÁVEL (Aba 4)
     document.getElementById("txt-passagem-output").value = p.passagem;
-
     renderizarAbasChecklistVaziasOuSimuladas(p);
     alert("AI Engine: Modelos de Evolução e Round estruturados com sucesso!");
     mudarAba('checklist');
