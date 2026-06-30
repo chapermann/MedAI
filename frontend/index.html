@@ -171,4 +171,49 @@
                 { num: 6, iniciais: "--", dx: "Leito Vazio", status: "apagada" },
                 { num: 7, iniciais: "--", dx: "Leito Vazio", status: "apagada" },
                 { num: 8, iniciais: "--", dx: "Leito Vazio", status: "apagada" },
-                { num: 9, iniciais: "--", dx: "Leito Vazio", status
+                { num: 9, iniciais: "--", dx: "Leito Vazio", status: "apagada" },
+                { num: 10, iniciais: "--", dx: "Leito Vazio", status: "apagada" },
+                { num: 11, iniciais: "--", dx: "Leito Vazio", status: "apagada" }
+            ],
+            trauma: [
+                { num: 1, iniciais: "T.H.M.", dx: "TCE Grave / Fratura de Fêmur", status: "vermelha" },
+                { num: 2, iniciais: "L.F.S.", dx: "Trauma Torácico Fechado", status: "verde" },
+                { num: 3, iniciais: "--", dx: "Leito Vazio", status: "apagada" },
+                { num: 4, iniciais: "--", dx: "Leito Vazio", status: "apagada" },
+                { num: 5, iniciais: "--", dx: "Leito Vazio", status: "apagada" },
+                { num: 6, iniciais: "--", dx: "Leito Vazio", status: "apagada" }
+            ]
+        };
+
+        function renderizarPainel() {
+            const containerVermelha = document.getElementById('grid-vermelha');
+            const containerTrauma = document.getElementById('grid-trauma');
+
+            dadosSimuladosLeitos.vermelha.forEach(leito => {
+                containerVermelha.innerHTML += `
+                    <div class="card-leito">
+                        <div class="lampada ${leito.status}"></div>
+                        <div class="leito-numero">Leito V${leito.num}</div>
+                        <div class="paciente-iniciais">${leito.iniciais}</div>
+                        <div class="diagnostico-resumo">${leito.dx}</div>
+                    </div>
+                `;
+            });
+
+            dadosSimuladosLeitos.trauma.forEach(leito => {
+                containerTrauma.innerHTML += `
+                    <div class="card-leito">
+                        <div class="lampada ${leito.status}"></div>
+                        <div class="leito-numero">Leito T${leito.num}</div>
+                        <div class="paciente-iniciais">${leito.iniciais}</div>
+                        <div class="diagnostico-resumo">${leito.dx}</div>
+                    </div>
+                `;
+            });
+        }
+
+        renderizarPainel();
+    </script>
+    <script src="app.js"></script>
+</body>
+</html>
