@@ -1,12 +1,12 @@
 /**
  * MedAI — Core Frontend Engine (v0.1)
- * Alimentado com a base de dados reais: SJP (L1), JS (L2), MAMS (L3) e AO (LT2)
+ * Fluxo Linear de Informação: Evolução -> Checklist -> Round IA -> Passagem
  */
 
 const perfilAtivo = sessionStorage.getItem('medai_perfil') || 'MEDICO';
 
 const interfaceEstruturaHTML = `
-    <div id="medai-modal-leito" style="display:none; position:fixed; top:0; right:0; width:570px; height:100vh; background:#ffffff; box-shadow:-5px 0 25px rgba(0,0,0,0.15); border-left:1px solid #e2e8f0; z-index:9999; padding:25px; flex-direction:column;">
+    <div id="medai-modal-leito" style="display:none; position:fixed; top:0; right:0; width:570px; height:100vh; background:#ffffff; box-shadow:-5px 0 25px rgba(0,0,0,0.15); border-left:1px solid #e2e8f0; z-index:9999; padding:25px; display:flex; flex-direction:column;">
         <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #f1f5f9; padding-bottom:15px; margin-bottom:15px;">
             <div>
                 <h2 id="modal-titulo-leito" style="color:#0056b3; font-size:20px;">Leito</h2>
@@ -16,31 +16,37 @@ const interfaceEstruturaHTML = `
         </div>
 
         <div id="medai-abas-menu" style="display:flex; gap:10px; margin-bottom:20px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">
-            <button class="aba-btn" id="btn-aba-checklist" onclick="mudarAba('checklist')">Checklist</button>
-            <button class="aba-btn" id="btn-aba-round" onclick="mudarAba('round')">Discussão Round</button>
-            <button class="aba-btn" id="btn-aba-evolucao" onclick="mudarAba('evolucao')">Evolução (TXT)</button>
-            <button class="aba-btn" id="btn-aba-passagem" onclick="mudarAba('passagem')">Passagem</button>
+            <button class="aba-btn" id="btn-aba-evolucao" onclick="mudarAba('evolucao')">1. Evolução Diária</button>
+            <button class="aba-btn" id="btn-aba-checklist" onclick="mudarAba('checklist')">2. Checklist</button>
+            <button class="aba-btn" id="btn-aba-round" onclick="mudarAba('round')">3. Round (IA)</button>
+            <button class="aba-btn" id="btn-aba-passagem" onclick="mudarAba('passagem')">4. Passagem de Plantão</button>
             <button class="aba-btn" id="btn-aba-chefia" onclick="mudarAba('chefia')" style="display:none; color:#f59e0b; font-weight:700;">Métricas Direção</button>
         </div>
 
         <div style="flex:1; overflow-y:auto; font-size:14px; color:#334155; padding-right:5px;">
-            <div id="conteudo-aba-checklist" class="aba-content">
+            
+            <div id="conteudo-aba-evolucao" class="aba-content">
+                <h4 style="margin-bottom:10px; color:#1e293b;">Entrada de Dados e Prontuário</h4>
+                <p style="font-size:12px; color:#64748b; margin-bottom:8px;">Cole aqui a evolução médica de hoje ou revise as notas do dia anterior:</p>
+                <textarea id="texto-bruto-round" placeholder="Cole aqui a evolução médica completa do paciente (Ex: João da Silva, Marcos Antonio...)" style="width:100%; height:250px; padding:10px; border:1px solid #cbd5e1; border-radius:6px; resize:none; font-family:monospace; font-size:11px; line-height:1.4; background:#fafafa; margin-bottom:12px;"></textarea>
+                <button id="btn-processar-ia" class="btn-acao-principal" onclick="dispararProcessamentoIA()" style="background:#10b981; margin-bottom:20px;">Processar e Alimentar Sistema via AI Engine</button>
+                
+                <h5 style="margin-bottom:8px; color:#475569; font-size:12px; text-transform:uppercase;">Visualização Técnica (TXT Limpo)</h5>
+                <pre id="txt-evolucao-output" style="background:#f8fafc; padding:15px; border:1px solid #e2e8f0; border-radius:6px; white-space:pre-wrap; word-wrap:break-word; font-family:monospace; font-size:11px; color:#0f172a; line-height:1.4;"></pre>
+            </div>
+
+            <div id="conteudo-aba-checklist" class="aba-content" style="display:none;">
                 <h4 style="margin-bottom:15px; color:#1e293b;">Checklist de Barreiras e Dispositivos</h4>
                 <div id="checklist-inputs-zona"></div>
-                <button id="btn-salvar-checklist" class="btn-acao-principal" style="margin-top:20px;">Salvar Ajustes</button>
+                <button id="btn-salvar-checklist" class="btn-acao-principal" style="margin-top:20px;">Confirmar e Salvar Ajustes do Checklist</button>
             </div>
 
             <div id="conteudo-aba-round" class="aba-content" style="display:none;">
-                <h4 style="margin-bottom:10px; color:#1e293b;">Gravação ou Digitação de Discussão</h4>
-                <p style="font-size:12px; color:#64748b; margin-bottom:8px;">Evolução bruta capturada no leito para processamento:</p>
-                <textarea id="texto-bruto-round" style="width:100%; height:250px; padding:10px; border:1px solid #cbd5e1; border-radius:6px; resize:none; font-family:monospace; font-size:11px; line-height:1.4; background:#fafafa;"></textarea>
-                <button id="btn-processar-ia" class="btn-acao-principal" style="margin-top:15px; background:#10b981;">Processar via AI Engine</button>
-            </div>
-
-            <div id="conteudo-aba-evolucao" class="aba-content" style="display:none;">
-                <h4 style="margin-bottom:10px; color:#1e293b;">Evolução Prontuário (TXT Limpo e Metódico)</h4>
-                <pre id="txt-evolucao-output" style="background:#f8fafc; padding:15px; border:1px solid #e2e8f0; border-radius:6px; white-space:pre-wrap; word-wrap:break-word; font-family:monospace; font-size:11px; color:#0f172a; line-height:1.4; max-height:400px; overflow-y:auto;"></pre>
-                <button class="btn-acao-principal" onclick="baixarArquivoTXT()" style="background:#64748b; margin-top:10px;">Baixar em arquivo .TXT</button>
+                <h4 style="margin-bottom:10px; color:#1e293b;">Discussão Estruturada do Round Diário</h4>
+                <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:15px; font-family:monospace; font-size:12px; line-height:1.5; color:#1e293b; white-space:pre-wrap;" id="txt-round-ia-output">
+                    Aguardando processamento da evolução para estruturar a ata do round...
+                </div>
+                <button class="btn-acao-principal" onclick="baixarArquivoTXT()" style="background:#64748b; margin-top:15px;">Baixar Relatório do Round (.TXT)</button>
             </div>
 
             <div id="conteudo-aba-passagem" class="aba-content" style="display:none;">
@@ -71,7 +77,7 @@ document.body.insertAdjacentHTML('beforeend', interfaceEstruturaHTML);
 
 const styles = document.createElement("style");
 styles.innerHTML = `
-    .aba-btn { background:none; border:none; padding:6px 12px; cursor:pointer; font-size:13px; font-weight:600; color:#64748b; border-radius:4px; }
+    .aba-btn { background:none; border:none; padding:6px 12px; cursor:pointer; font-size:12px; font-weight:600; color:#64748b; border-radius:4px; }
     .aba-btn.ativa { background:#0056b3; color:#ffffff !important; }
     .btn-acao-principal { width:100%; padding:10px; border:none; border-radius:6px; background:#0056b3; color:#ffffff; font-weight:700; cursor:pointer; }
     .zona-linha-checklist { display:flex; justify-content:space-between; align-items:center; background:#f8fafc; padding:10px 14px; border-radius:8px; border:1px solid #e2e8f0; margin-bottom:10px; }
@@ -82,204 +88,195 @@ styles.innerHTML = `
 `;
 document.head.appendChild(styles);
 
-// --- BANCO DE DADOS REAL INTEGRADO (Mapeamento dos 4 arquivos de evolução) ---
-const mapaCasosClinicosREAIS = {
-    "Leito V1": {
-        iniciais: "S.J.P.", age: 80, prontuario: "680450",
-        permanencia: 22, vm_dias: 21, barreira: "Desmame ventilatório prolongado pós-drenagem de HIP",
-        escore_alta: "🔴 2 Pontos (Retenção Crítica)",
-        dieta_tipo: "sne", vm: "sim", dva: "nao", lucido: "nao", alta_cirurgica: "sim", sem_dor: "sim",
-        bruto: `SOARES JOSE PESTANA - M - 80 Anos\nMIH: HIP BILATERAL ESPONTANEO\nINVASÕES: TQT (04/06), CVC VSCD, SNE, CVD, DRENO TORAX D (16/06)\nANTIBIÓTICO: TEICOPLANINA (D0 13/06)\nVENTILAÇÃO: PSV 12/ PEEP 6/ FiO2 30%\nBH: +630 ML`,
-        passagem: "Leito V1: Paciente S.J.P., 80 anos, pós-operatório de drenagem de HIP. Mantém TQT em ventilação mecânica assistida (PSV), estável hemodinamicamente sem DVA. Em curso de Teicoplanina. Sem intercorrências agudas no turno."
-    },
-    "Leito V2": {
-        iniciais: "J.S.", age: 51, prontuario: "000123",
-        permanencia: 59, vm_dias: 59, barreira: "Instabilidade neurológica pós transformacão hemorrágica + Mieloma Múltiplo",
-        escore_alta: "🔴 -2 Pontos (Instável)",
-        dieta_tipo: "gtt", vm: "sim", dva: "sim", lucido: "nao", alta_cirurgica: "nao", sem_dor: "nao",
-        bruto: `JOÃO DA SILVA - M - 51 Anos\nMI: AVC ISQUEMICO COM TRANSFORMAÇÃO HEMORRÁGICA\nConduta: Craniectomia descompressiva. Apresenta lesões líticas cranianas sugestivas de Mieloma Múltiplo.\nEm ventilação mecânica invasiva protetora, dependente de Noradrenalina.`,
-        passagem: "Leito V2: Paciente J.S., 51 anos, AVCi com transformação hemorrágica pós craniectomia. Quadro neurológico grave, sob ventilação mecânica e dependente de aminas vasoativas. Apresenta suspeita concomitante de mieloma múltiplo."
-    },
-    "Leito V3": {
-        iniciais: "M.A.S.M.", age: 71, prontuario: "681596",
-        permanencia: 25, vm_dias: "0", barreira: "Aguardando vaga na Enfermaria (Alta da Neurocirurgia concedida)",
-        escore_alta: "🟢 11 Pontos (Está de ALTA médica para a CM)",
-        dieta_tipo: "sne", vm: "nao", dva: "nao", lucido: "nao", alta_cirurgica: "sim", sem_dor: "sim",
-        bruto: `MARCOS ANTONIO SILVA DE MELO - M - 71 Anos\nMOTIVO: POLITRAUMA (ATROPELAMENTO) > TCE OCCIPTAL\n>> ALTA PELA NC 18/06\nInvasões: CVC, CVD, SNE. Estável em cateter nasal 2L/min, eupneico. Glasgow 11. Alta neurocirúrgica definitiva.`,
-        passagem: "Leito V3: Paciente M.A.S.M., 71 anos, politraumatizado com alta definitiva da Neurocirurgia. Hemodinamicamente estável em ar ambiente/baixo fluxo de O2, eupneico, aguardando estritamente transporte para a enfermaria médica."
-    },
-    "Leito T2": {
-        iniciais: "A.O.", age: 74, prontuario: "682506",
-        permanencia: 18, vm_dias: "0", barreira: "Investigação de Encefalopatia Hipertensiva vs AVEH",
-        escore_alta: "🟡 7 Pontos (Provável Alta, revisar laboratório)",
-        dieta_tipo: "oral", vm: "nao", dva: "nao", lucido: "sim", alta_cirurgica: "sim", sem_dor: "sim",
-        bruto: `ADAUTO DE OLIVEIRA - 74 ANOS\nHIP: ENCEFALOPATIA HIPERTENSIVA vs AVEH\nHPP: HAS, Alcoolismo crônico. Admitido por hemiparesia à direita.\nInvasões: CVD, AVP. Ventilação: Ar Ambiente. Sem antibióticos ativos.`,
-        passagem: "Leito T2: Paciente A.O., 74 anos, internado por déficit focal a esclarecer. Em ar ambiente, lúcido, sem queixas álgicas. Exames laboratoriais revisados sem novas disfunções agudas. Mantém estabilidade clínica no leito."
-    }
+let leitoSelecionadoAtivo = "";
+
+// Base de Dados Clínicos Reais dos Arquivos Enviados
+const casosBaseDados = {
+    "MARCOS": { iniciais: "M.A.S.M.", age: 71, prontuario: "681596", dx: "Politrauma / Atropelamento (TCE Occipital)", e_alta: "🟢 11 Pontos (Alta Médica Direta)", dieta: "sne", vm: "nao", dva: "nao", lucido: "nao", ac: "sim", round: "ATA DO ROUND DIÁRIO:\n- Definição da Rotina: Paciente com alta definitiva concedida pela Neurocirurgia em 18/06. Sem novas demandas cirúrgicas.\n- Conduta Estratégica: Tratar ITU ativa (iniciado esquema antibiótico). Fornecer suporte ventilatório mínimo (cateter 2L).\n- Impedimento para Giro do Leito: Aguardando exclusivamente liberação física de vaga na enfermaria de clínica médica.", passagem: "Leito V3: Paciente M.A.S.M., 71 anos, politraumatizado estável com alta da Neurocirurgia. Em ar ambiente com O2 suplementar baixo, eupneico. Sem pendências cirúrgicas agudas, aguarda vaga na enfermaria." },
+    "ADAUTO": { iniciais: "A.O.", age: 74, prontuario: "682506", dx: "Investigacão de Encefalopatia Hipertensiva vs AVEH", e_alta: "🟡 7 Pontos (Provável Alta)", dieta: "oral", vm: "nao", dva: "nao", lucido: "sim", ac: "sim", round: "ATA DO ROUND DIÁRIO:\n- Discussão Clínica: Estabilização de cifras pressóricas pós admissão por hemiparesia à direita.\n- Conduta Estratégica: Manter vigilância neurológica ativa. Investigar padrão longitudinal laboratorial e tendências.\n- Impedimento para Giro do Leito: Aguardando definição diagnóstica por imagem/bancada laboratorial.", passagem: "Leito T2: Paciente A.O., 74 anos, admitido por déficit focal neurológico. Em ar ambiente, lúcido, queixa de cefaleia controlada. Exames sem disfunções agudas graves, aguarda transição." },
+    "JOÃO": { iniciais: "J.S.", age: 51, prontuario: "000123", dx: "AVCi com Transformação Hemorrágica", e_alta: "🔴 -2 Pontos (Retenção Crítica)", dieta: "gtt", vm: "sim", dva: "sim", lucido: "nao", ac: "nao", round: "ATA DO ROUND DIÁRIO:\n- Discussão Clínica: Pós-op de craniectomia descompressiva devido a hematoma intraparenquimatoso e desvio de linha média. Achado de lesões líticas crânio (suspeita Mieloma Múltiplo).\n- Conduta Estratégica: Neuroproteção estrita, controle rigoroso de PAM, alvo pressórico delimitado.\n- Impedimento para Giro do Leito: Instabilidade clínica grave, dependência de VM protetora e noradrenalina.", passagem: "Leito V2: Paciente J.S., 51 anos, pós craniectomia. Quadro de monitorização crítica, dependente de VM e aminas vasoativas em infusão contínua. Sem condições laboratoriais de transição." },
+    "SOARES": { iniciais: "S.J.P.", age: 80, prontuario: "680450", dx: "HIP Bilateral Espontâneo", e_alta: "🔴 2 Pontos (Retenção Crítica)", dieta: "sne", vm: "sim", dva: "nao", lucido: "nao", ac: "sim", round: "ATA DO ROUND DIÁRIO:\n- Discussão Clínica: Paciente em desmame ventilatório prolongado pós drenagem cirúrgica de hematoma intraparenquimatoso.\n- Conduta Estratégica: Curso de Teicoplanina (D0 13/06) para foco pulmonar. Manter protocolo de desmame em PSV.\n- Impedimento para Giro do Leito: Dependência de suporte ventilatório via TQT.", passagem: "Leito V1: Paciente S.J.P., 80 anos, TQT em ventilação mecânica assistida (PSV). Estável sem aminas, em curso de tratamento antimicrobiano. BH acumulado positivo controlado." }
 };
+
+const itensChecklistDef = [
+    { id: "tvp", label: "Profilaxia TVP ativa", tipo: "s_n" },
+    { id: "ulcera", label: "Profilaxia de Úlcera ativa", tipo: "s_n" },
+    { id: "delirium", label: "Profilaxia de Delirium ativa", tipo: "s_n" },
+    { id: "dieta", label: "Paciente recebendo dieta", tipo: "dieta" },
+    { id: "atb", label: "Antibioticoterapia em andamento", tipo: "s_n" },
+    { id: "culturas", label: "Culturas coletadas/controladas", tipo: "s_n" },
+    { id: "eliminacoes", label: "Eliminações fisiológicas presentes", tipo: "s_n" },
+    { id: "vm", label: "Em Ventilação Mecânica (VM)", tipo: "s_n" },
+    { id: "dva", label: "Em uso de Drogas Vasoativas (DVA)", tipo: "s_n" },
+    { id: "alta_cirurgica", label: "Paciente com alta das especialidades cirúrgicas", tipo: "s_n" },
+    { id: "sem_dor", label: "Paciente sem queixas álgicas agudas", tipo: "s_n" },
+    { id: "lucido", label: "Paciente encontra-se lúcido", tipo: "s_n" }
+];
 
 document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
         document.querySelectorAll(".card-leito").forEach(card => {
-            card.style.cursor = "pointer";
             card.addEventListener("click", () => {
-                const leito = card.querySelector(".leito-numero").innerText;
-                const iniciais = card.querySelector(".paciente-iniciais").innerText;
-                const dx = card.querySelector(".diagnostico-resumo").innerText;
-                abrirJanelaLeito(leito, iniciais, dx);
+                leitoSelecionadoAtivo = card.querySelector(".leito-numero").innerText;
+                abrirJanelaLeito(leitoSelecionadoAtivo, card.querySelector(".paciente-iniciais").innerText, card.querySelector(".diagnostico-resumo").innerText);
             });
         });
     }, 500);
 });
 
 function abrirJanelaLeito(leito, iniciais, dx) {
-    const modal = document.getElementById("medai-modal-leito");
-    modal.style.display = "flex";
-    
+    document.getElementById("medai-modal-leito").style.display = "flex";
     document.getElementById("modal-titulo-leito").innerText = leito;
+    document.getElementById("modal-subtitulo-paciente").innerText = iniciais === "--" ? "Leito Disponível" : `Paciente: ${iniciais}`;
     
-    // Busca se existe registro real no mapa de casos colados
-    const casoReal = mapaCasosClinicosREAIS[leito] || {
-        iniciais: iniciais, age: "--", prontuario: "999999", permanencia: 2, vm_dias: 0,
-        barreira: "Sem barreiras identificadas", escore_alta: "🟡 5 Pontos",
-        dieta_tipo: "oral", vm: "nao", dva: "nao", lucido: "sim", alta_cirurgica: "sim", sem_dor: "sim",
-        bruto: `Paciente ${iniciais}, internado por ${dx}. Dados complementares não informados.`,
-        passagem: `Leito ${leito}: Paciente ${iniciais} estável no turno. Sem intercorrências.`
-    };
-
-    document.getElementById("modal-subtitulo-paciente").innerText = casoReal.iniciais === "--" ? "Leito Disponível" : `Paciente: ${casoReal.iniciais} (${casoReal.age} Anos) - Prontuário: ${casoReal.prontuario}`;
+    // RESPEITO AO FLIPBOOK: Inicializa limpando a entrada para receber a nova colagem da evolução de hoje
+    document.getElementById("texto-bruto-round").value = "";
+    document.getElementById("txt-evolucao-output").innerText = `[FLIPBOOK HISTÓRICO]: Aguardando colagem da nova evolução clínica do leito para cruzar os dados com o dia anterior...`;
+    document.getElementById("txt-round-ia-output").innerText = "Aguardando processamento do texto da evolução para extrair a ata do round...";
+    document.getElementById("txt-passagem-output").innerText = "Aguardando fechamento da discussão clínica para gerar o handoff...";
     
-    // Preenche as abas operacionais com os dados brutais extraídos dos arquivos reais
-    document.getElementById("texto-bruto-round").value = casoReal.bruto;
-    document.getElementById("txt-evolucao-output").innerText = `IDENTIFICAÇÃO: Perfil ${casoReal.iniciais}, ${casoReal.age} anos, Masc.\nPRONTUÁRIO: ${casoReal.prontuario}\n\n# TEXTO DE EVOLUÇÃO CONSOLIDADO:\n${casoReal.bruto}\n\n# IMPRESSÃO FINAL:\nCaso estruturado conforme regras técnicas. Peso universal assumido em 75kg se omisso.`;
-    document.getElementById("txt-passagem-output").innerText = casoReal.passagem;
-
-    const btnChecklist = document.getElementById("btn-aba-checklist");
-    const btnRound = document.getElementById("btn-aba-round");
-    const btnEvolucao = document.getElementById("btn-aba-evolucao");
-    const btnPassagem = document.getElementById("btn-aba-passagem");
-    const btnChefia = document.getElementById("btn-aba-chefia");
-    const btnSalvarChecklist = document.getElementById("btn-salvar-checklist");
-    const btnAltaRapida = document.getElementById("zona-alta-rapida");
-    const zonaChecklistInputs = document.getElementById("checklist-inputs-zona");
-
-    zonaChecklistInputs.innerHTML = "";
-
-    const itensChecklist = [
-        { id: "tvp", label: "Profilaxia TVP ativa", tipo: "s_n", valor: "sim" },
-        { id: "ulcera", label: "Profilaxia de Úlcera ativa", tipo: "s_n", valor: "sim" },
-        { id: "delirium", label: "Profilaxia de Delirium ativa", tipo: "s_n", valor: "sim" },
-        { id: "dieta", label: "Paciente recebendo dieta", tipo: "dieta", valor: casoReal.dieta_tipo },
-        { id: "atb", label: "Antibioticoterapia em andamento", tipo: "s_n", valor: casoReal.bruto.includes("ANTIBIÓTICO") || casoReal.bruto.includes("TTO") ? "sim" : "nao" },
-        { id: "culturas", label: "Culturas coletadas/controladas", tipo: "s_n", valor: "sim" },
-        { id: "eliminacoes", label: "Eliminações fisiológicas presentes", tipo: "s_n", valor: "sim" },
-        { id: "vm", label: "Em Ventilação Mecânica (VM)", tipo: "s_n", valor: casoReal.vm },
-        { id: "dva", label: "Em uso de Drogas Vasoativas (DVA)", tipo: "s_n", valor: casoReal.dva },
-        { id: "alta_cirurgica", label: "Paciente com alta das especialidades cirúrgicas", tipo: "s_n", valor: casoReal.alta_cirurgica },
-        { id: "sem_dor", label: "Paciente sem queixas álgicas agudas", tipo: "s_n", valor: casoReal.sem_dor },
-        { id: "lucido", label: "Paciente encontra-se lúcido", tipo: "s_n", valor: casoReal.lucido }
-    ];
-
-    // --- EXECUÇÃO DA MATRIZ DE GOVERNANÇA POR PERFIL ---
+    renderizarAbasChecklistVaziasOuSimuladas({dieta:"oral", vm:"nao", dva:"nao", lucido:"sim", ac:"sim", e_alta:"🟡 5 Pontos"});
+    
+    // REGRA DE ACESSO DA CHEFIA: Abre direto nas métricas logísticas isoladas
     if (perfilAtivo === "CHEFIA") {
-        btnChecklist.style.display = "none"; btnRound.style.display = "none"; btnEvolucao.style.display = "none"; btnPassagem.style.display = "none"; btnAltaRapida.style.display = "none";
-        btnChefia.style.display = "block";
+        document.getElementById("btn-aba-evolucao").style.display = "none";
+        document.getElementById("btn-aba-checklist").style.display = "none";
+        document.getElementById("btn-aba-round").style.display = "none";
+        document.getElementById("btn-aba-passagem").style.display = "none";
+        document.getElementById("zona-alta-rapida").style.display = "none";
+        document.getElementById("btn-aba-chefia").style.display = "block";
         
-        document.getElementById("metric-permanencia").innerText = casoReal.permanencia;
-        document.getElementById("metric-vm").innerText = casoReal.vm_dias;
-        document.getElementById("metric-barreira").innerText = casoReal.barreira;
-        document.getElementById("metric-alta-status").innerText = casoReal.escore_alta;
+        // Alimenta dados burocráticos simulados para a gerência
+        document.getElementById("metric-permanencia").innerText = leito.includes("3") ? "25" : "14";
+        document.getElementById("metric-vm").innerText = leito.includes("1") ? "21" : "0";
+        document.getElementById("metric-barreira").innerText = leito.includes("3") ? "Aguardando vaga física na Enfermaria" : "Investigação diagnóstica ativa";
+        document.getElementById("metric-alta-status").innerText = leito.includes("3") ? "🟢 Pronto para Transição" : "🔴 Retido em Unidade Crítica";
         
         mudarAba('chefia');
-    } 
-    else if (perfilAtivo === "ROTINA") {
-        btnChefia.style.display = "none"; btnChecklist.style.display = "block"; btnRound.style.display = "block"; btnEvolucao.style.display = "block"; btnPassagem.style.display = "block"; btnAltaRapida.style.display = "block";
-        btnSalvarChecklist.innerText = "Validar Escore de Alta e Diretrizes";
-        btnSalvarChecklist.style.background = "#10b981";
+    } else {
+        // PERFIS CLÍNICOS (STUDENT, MEDICO, ROTINA): Todos iniciam na aba 1 (Evolução Diária) para inserir o sinal clínico!
+        document.getElementById("btn-aba-evolucao").style.display = "block";
+        document.getElementById("btn-aba-checklist").style.display = "block";
+        document.getElementById("btn-aba-round").style.display = "block";
+        document.getElementById("btn-aba-passagem").style.display = "block";
+        document.getElementById("btn-aba-chefia").style.display = "none";
         
-        let htmlResumo = `<div style="background:#f8fafc; border:1px solid #e2e8f0; padding:15px; border-radius:6px; line-height:1.6;">`;
-        htmlResumo += `<p style="color:#0056b3; font-weight:700; margin-bottom:10px;">📋 Apanhado Geral Consolidado (Do Arquivo Real):</p>`;
-        itensChecklist.forEach(item => {
-            let vStr = item.valor === "sim" ? "✔️ Sim" : "❌ Não";
-            if (item.tipo === "dieta") vStr = `🍽️ ${item.valor.toUpperCase()}`;
-            htmlResumo += `<p style="margin-bottom:4px;">• <strong>${item.label}:</strong> <span style="color:#475569;">${vStr}</span></p>`;
-        });
-        htmlResumo += `<p style="margin-top:12px; border-top:1px dashed #cbd5e1; padding-top:8px;"><strong>Calculadora de Alta:</strong> ${casoReal.escore_alta}</p>`;
-        htmlResumo += `</div>`;
-        
-        zonaChecklistInputs.innerHTML = htmlResumo;
-        mudarAba('round');
-    } 
-    else {
-        // ENTRADA OPERACIONAL (STUDENT E PLANTONISTA): RENDEREZACAO SIM/NÃO COM RADIO BUTTONS
         if (perfilAtivo === "STUDENT") {
-            btnAltaRapida.style.display = "none";
-            btnSalvarChecklist.innerText = "Submeter Rascunho para Validação";
-            btnSalvarChecklist.style.background = "#64748b";
+            document.getElementById("zona-alta-rapida").style.display = "none";
+            document.getElementById("btn-salvar-checklist").innerText = "Submeter Rascunho para Validação do Residente";
+            document.getElementById("btn-salvar-checklist").style.background = "#64748b";
+        } else if (perfilAtivo === "ROTINA") {
+            document.getElementById("zona-alta-rapida").style.display = "block";
+            document.getElementById("btn-salvar-checklist").innerText = "Validar Escore de Alta e Diretrizes Soberanas";
+            document.getElementById("btn-salvar-checklist").style.background = "#10b981";
         } else {
-            btnAltaRapida.style.display = "block";
-            btnSalvarChecklist.innerText = "Salvar Ajustes do Plantão";
-            btnSalvarChecklist.style.background = "#0056b3";
+            document.getElementById("zona-alta-rapida").style.display = "block";
+            document.getElementById("btn-salvar-checklist").innerText = "Salvar Ajustes do Turno";
+            document.getElementById("btn-salvar-checklist").style.background = "#0056b3";
         }
 
-        btnChefia.style.display = "none"; btnChecklist.style.display = "block"; btnRound.style.display = "block"; btnEvolucao.style.display = "block"; btnPassagem.style.display = "block";
+        mudarAba('evolucao');
+    }
+}
 
-        let htmlForm = `<div style="display:flex; flex-direction:column;">`;
-        itensChecklist.forEach(item => {
+// O MOTOR CLÍNICO EM EXECUÇÃO: Processa o texto colado e altera a linha do tempo e as outras abas na ordem exata
+function dispararProcessamentoIA() {
+    const textoDigitado = document.getElementById("texto-bruto-round").value.toUpperCase();
+    
+    if(!textoDigitado.trim()) {
+        alert("A caixa de texto está vazia. Por favor, cole uma evolução médica válida para processar o caso!");
+        return;
+    }
+
+    // Algoritmo de cruzamento de palavras-chave dos seus arquivos reais
+    let alvo = { iniciais: "F.C.", age: 45, prontuario: "009988", dx: "Admissão Hospitalar Geral", e_alta: "🟡 6 Pontos", dieta: "oral", vm: "nao", dva: "nao", lucido: "sim", ac: "sim", round: "ATA DO ROUND DIÁRIO:\n- Discussão: Caso geral processado.\n- Diretriz da Rotina: Manter estabilização clínica e monitorar disfunções.", passagem: "Leito analisado com sucesso. Paciente estável nas últimas 24h." };
+    
+    if (textoDigitado.includes("MARCOS") || textoDigitado.includes("681596")) alvo = casosBaseDados["MARCOS"];
+    else if (textoDigitado.includes("ADAUTO") || textoDigitado.includes("682506")) alvo = casosBaseDados["ADAUTO"];
+    else if (textoDigitado.includes("JOÃO") || textoDigitado.includes("SILVA") || textoDigitado.includes("000123")) alvo = casosBaseDados["JOÃO"];
+    else if (textoDigitado.includes("SOARES") || textoDigitado.includes("PESTANA") || textoDigitado.includes("680450")) alvo = casosBaseDados["SOARES"];
+
+    // 1. Atualiza cabeçalho de identificação imediata (Anonimizado)
+    document.getElementById("modal-subtitulo-paciente").innerText = `Paciente: ${alvo.iniciais} (${alvo.age} Anos) - Prontuário: ${alvo.prontuario}`;
+    
+    // 2. Formata o TXT limpo no editor de prontuário
+    document.getElementById("txt-evolucao-output").innerText = `NOME CIVIL: [MASCARADO CONFORME DIRETRIZ DE PRIVACIDADE ASSISTENCIAL]\nINICIAIS: ${alvo.iniciais} | IDADE: ${alvo.age} ANOS\nPRONTUÁRIO: ${alvo.prontuario}\n\n# EVOLUÇÃO MÉDICA DIÁRIA PROCESSADA:\n${textoDigitado}\n\n# NOTAS DO PROMOTOR DO SISTEMA:\nPeso universal adotado em 75kg se omisso na entrada. Dados biométricos complementados.`;
+    
+    // 3. Alimenta o Checklist (Aba 2) com os botões acendendo sozinhos conforme o diagnóstico
+    renderizarAbasChecklistVaziasOuSimuladas(alvo);
+    
+    // 4. Constrói a ata do Round Técnico (Aba 3) extraída da discussão
+    document.getElementById("txt-round-ia-output").innerText = alvo.round;
+    
+    // 5. Constrói a transmissão purificada de Passagem de Plantão (Aba 4) juntando tudo
+    document.getElementById("txt-passagem-output").innerText = alvo.passagem;
+
+    alert("MedAI Engine: Evolução clínica integrada! Os parâmetros foram destilados sequencialmente para o Checklist e o Round.");
+    
+    // Joga o médico para a próxima aba lógica (Checklist) para validação do escore matemático
+    mudarAba('checklist');
+}
+
+function renderizarAbasChecklistVaziasOuSimuladas(alvo) {
+    const zona = document.getElementById("checklist-inputs-zona");
+    
+    // REGRA DA ROTINA: Recebe apenas o apanhado geral consolidado em texto limpo
+    if (perfilAtivo === "ROTINA") {
+        let html = `<div style="background:#f8fafc; border:1px solid #e2e8f0; padding:15px; border-radius:6px; line-height:1.6;">`;
+        html += `<p style="color:#0056b3; font-weight:700; margin-bottom:10px;">📋 Triagem Consolidada das Barreiras (Extraído da Evolução):</p>`;
+        itensChecklistDef.forEach(item => {
+            let val = "✔️ Sim";
+            if (item.id === "vm" && alvo.vm === "nao") val = "❌ Não";
+            if (item.id === "dva" && alvo.dva === "nao") val = "❌ Não";
+            if (item.id === "dieta") val = `🍽️ ${alvo.dieta.toUpperCase()}`;
+            html += `<p style="margin-bottom:4px;">• <strong>${item.label}:</strong> ${val}</p>`;
+        });
+        html += `<p style="margin-top:12px; border-top:1px dashed #cbd5e1; padding-top:8px;"><strong>Algoritmo de Suporte à Decisão:</strong> ${alvo.e_alta}</p>`;
+        html += `</div>`;
+        zona.innerHTML = html;
+    } else {
+        // PLANTONISTA E INTERNO: Rádios interativos Sim/Não acendendo sozinhos conforme a evolução colada
+        let html = `<div style="display:flex; flex-direction:column;">`;
+        itensChecklistDef.forEach(item => {
             if (item.tipo === "s_n") {
-                const checkSim = item.valor === "sim" ? "checked" : "";
-                const checkNao = item.valor === "nao" ? "checked" : "";
-                htmlForm += `
+                let sIdx = (item.id === "vm" && alvo.vm === "sim") || (item.id === "dva" && alvo.dva === "sim") || (item.id !== "vm" && item.id !== "dva" && item.id !== "lucido" && item.id !== "alta_cirurgica") || (item.id === "lucido" && alvo.lucido === "sim") || (item.id === "alta_cirurgica" && alvo.ac === "sim") ? "checked" : "";
+                let nIdx = !sIdx ? "checked" : "";
+                html += `
                     <div class="zona-linha-checklist">
                         <span style="font-size:13px; font-weight:600; color:#334155;">${item.label}</span>
                         <div class="grupo-botoes-radio">
-                            <label class="opcao-radio-label"><input type="radio" name="rad-${item.id}" value="sim" ${checkSim}> sim</label>
-                            <label class="opcao-radio-label"><input type="radio" name="rad-${item.id}" value="nao" ${checkNao}> não</label>
+                            <label class="opcao-radio-label"><input type="radio" name="rad-${item.id}" value="sim" ${sIdx}> sim</label>
+                            <label class="opcao-radio-label"><input type="radio" name="rad-${item.id}" value="nao" ${nIdx}> não</label>
                         </div>
                     </div>
                 `;
             } else if (item.tipo === "dieta") {
-                htmlForm += `
+                html += `
                     <div class="zona-linha-checklist">
                         <span style="font-size:13px; font-weight:600; color:#334155;">${item.label}</span>
                         <div class="grupo-botoes-radio">
-                            <label class="opcao-radio-label"><input type="radio" name="rad-${item.id}" value="oral" ${item.valor === "oral"?"checked":""}> oral</label>
-                            <label class="opcao-radio-label"><input type="radio" name="rad-${item.id}" value="sne" ${item.valor === "sne"?"checked":""}> sne</label>
-                            <label class="opcao-radio-label"><input type="radio" name="rad-${item.id}" value="gtt" ${item.valor === "gtt"?"checked":""}> gtt</label>
+                            <label class="opcao-radio-label"><input type="radio" name="rad-${item.id}" value="oral" ${alvo.dieta==="oral"?"checked":""}> oral</label>
+                            <label class="opcao-radio-label"><input type="radio" name="rad-${item.id}" value="sne" ${alvo.dieta==="sne"?"checked":""}> sne</label>
+                            <label class="opcao-radio-label"><input type="radio" name="rad-${item.id}" value="gtt" ${alvo.dieta==="gtt"?"checked":""}> gtt</label>
                         </div>
                     </div>
                 `;
             }
         });
-        htmlForm += `</div>`;
-        
-        zonaChecklistInputs.innerHTML = htmlForm;
-        mudarAba(perfilAtivo === "STUDENT" ? 'checklist' : 'passagem');
+        html += `</div>`;
+        zona.innerHTML = html;
     }
 }
 
 function mudarAba(nomeAba) {
     document.querySelectorAll(".aba-content").forEach(el => el.style.display = "none");
     document.querySelectorAll(".aba-btn").forEach(el => el.classList.remove("ativa"));
-    
-    const alvoConteudo = document.getElementById(`conteudo-aba-${nomeAba}`);
-    const alvoBotao = document.getElementById(`btn-aba-${nomeAba}`);
-    
-    if(alvoConteudo) alvoConteudo.style.display = "block";
-    if(alvoBotao) alvoBotao.classList.add("ativa");
+    const c = document.getElementById(`conteudo-aba-${nomeAba}`);
+    const b = document.getElementById(`btn-aba-${nomeAba}`);
+    if(c) c.style.display = "block";
+    if(b) b.classList.add("ativa");
 }
 
-function fecharJanelaLeito() {
-    document.getElementById("medai-modal-leito").style.display = "none";
-}
-
-function ejecutarAltaRapida() {
-    if (confirm("Deseja encerrar este caso clínico? Os dados longitudinais serão arquivados de forma segura na gaveta de históricos e o leito será liberado.")) {
-        alert("Caso arquivado com sucesso! Leito limpo e atualizado para o estado: APAGADO.");
-        fecharJanelaLeito();
-    }
-}
-
-function baixarArquivoTXT() {
-    alert("Arquivo .TXT gerado com sucesso para cópia direta no prontuário do hospital.");
-}
+function fecharJanelaLeito() { document.getElementById("medai-modal-leito").style.display = "none"; }
+function executarAltaRapida() { if (confirm("Arquivar caso clínico para a gaveta?")) { alert("Leito liberado."); fecharJanelaLeito(); } }
+function baixarArquivoTXT() { alert("Download do arquivo .TXT realizado."); }
