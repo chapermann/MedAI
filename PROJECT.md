@@ -16,6 +16,8 @@ O MedAI não substitui a decisão médica.
 
 O MedAI organiza informações, identifica riscos, auxilia na documentação clínica e fornece apoio científico para tomada de decisão.
 
+Organizando a informação para que a Medicina possa acontecer. A melhor decisão médica começa com a informação certa.
+
 ---
 
 # Objetivos
@@ -42,6 +44,51 @@ Toda informação gerada será vinculada ao paciente.
 
 Os módulos de Inteligência Artificial apenas processam essas informações.
 
+O MedAI comporta-se como uma Secretária Executiva altamente especializada.
+
+Ela nunca opera o paciente.
+Nunca prescreve.
+Nunca realiza cirurgia.
+Nunca decide.
+Mas ela consegue fazer algo extraordinário.
+Ela encontra qualquer informação em milhares de páginas.
+Ela organiza documentos.
+Ela coloca tudo na ordem correta.
+Ela monta uma linha do tempo.
+Ela lembra pendências.
+Ela lembra exames.
+Ela percebe quando algo desapareceu.
+Ela percebe quando existe uma contradição.
+Ela percebe quando um paciente foi evoluído com informações de outro.
+Ela organiza a reunião.
+Ela prepara a discussão clínica.
+Ela prepara o resumo para passagem de plantão.
+Ela organiza as tarefas.
+Ela registra quem ficou responsável.
+Ela acompanha se foi feito.
+Ela lembra novamente.
+Ela nunca esquece.
+Ela nunca se cansa.
+Ela nunca perde uma folha.
+---
+# Curadoria Clínica
+Não é inteligência artificial.
+Não faz geração de texto.
+Não faz automação.
+Faz Curadoria Clínica.
+## Definição.
+      # Curadoria Clínica é o processo de localizar, organizar, relacionar, resumir e apresentar informações clínicas relevantes sem alterar o conteúdo original produzido pelos profissionais de saúde.
+  Organizamos informação para melhorar decisões.
+  Nenhum dado importante deve passar despercebido.
+  A informação certa, para a pessoa certa, no momento certo.
+  O MedAI não substitui o raciocínio clínico. Ele elimina a desorganização da informação clínica.
+  ----
+  A maioria das IAs médicas do mercado tenta responder:
+  "Qual é o diagnóstico?"
+  O MedAI responde:
+  "Vou organizar toda a informação para que você consiga raciocinar melhor."
+  Essa diferença é gigantesca.
+  ----
 ---
 
 # Arquitetura Geral
@@ -136,6 +183,15 @@ Todo conteúdo deverá possuir histórico de versões.
 
 Nenhuma informação será apagada.
 
+---
+Curadora Clínica Digital = Executive Clinical Assistant or Clinical Intelligence Assistant
+Ela não escreve a história.
+Ela organiza a história.
+O MedAI é um Assistente Executivo Clínico.
+  Sua missão é garantir que nenhuma informação clínica importante seja perdida, esquecida, escondida ou apresentada fora de contexto.
+  Ele organiza, resume, estrutura e acompanha toda a informação produzida pela equipe assistencial, preservando rigorosamente a autoria, a cronologia e a integridade dos registros médicos.
+  O MedAI não substitui o julgamento clínico. Ele potencializa a capacidade do médico de encontrar a informação certa, no momento certo, para a pessoa certa.
+  
 ---
 
 # Estrutura Geral
