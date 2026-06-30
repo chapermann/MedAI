@@ -84,4 +84,163 @@ document.addEventListener("DOMContentLoaded", () => {
             card.style.cursor = "pointer";
             card.addEventListener("click", () => {
                 const tituloLeito = card.querySelector(".leito-numero").innerText;
-                const iniciais
+                const iniciaisPaciente = card.querySelector(".paciente-iniciais").innerText;
+                const dxResumo = card.querySelector(".diagnostico-resumo").innerText;
+                
+                abrirJanelaLeito(tituloLeito, iniciaisPaciente, dxResumo);
+            });
+        });
+    }, 500);
+});
+
+function abrirJanelaLeito(leito, iniciais, dx) {
+    const modal = document.getElementById("medai-modal-leito");
+    modal.style.display = "flex";
+    
+    document.getElementById("modal-titulo-leito").innerText = leito;
+    document.getElementById("modal-subtitulo-paciente").innerText = iniciais === "--" ? "Leito Disponível para Internação" : `Paciente: ${iniciais}`;
+    
+    const btnChecklist = document.getElementById("btn-aba-checklist");
+    const btnRound = document.getElementById("btn-aba-round");
+    const btnEvolucao = document.getElementById("btn-aba-evolucao");
+    const btnPassagem = document.getElementById("btn-aba-passagem");
+    const btnChefia = document.getElementById("btn-aba-chefia");
+    const btnSalvarChecklist = document.getElementById("btn-salvar-checklist");
+    const btnAltaRapida = document.getElementById("zona-alta-rapida");
+    const zonaChecklistInputs = document.getElementById("checklist-inputs-zona");
+
+    zonaChecklistInputs.innerHTML = "";
+
+    document.getElementById("texto-bruto-round").value = iniciais !== "--" ? `Paciente ${iniciais}, evoluindo estável...` : "";
+    document.getElementById("txt-evolucao-output").innerText = `NOME INTERNO: [OCULTADO CONFORME LEI DE PRIVACIDADE]\nPRONTUÁRIO: 998421\nDIAGNÓSTICO: ${dx}\n\n[DADOS DO DIA ANTERIOR CARREGADOS - FLIPBOOK ATIVO]`;
+    document.getElementById("txt-passagem-output").innerText = `${leito}: Paciente ${iniciais}, internado por ${dx}. Encontra-se estável, em ar ambiente, sem queixas álgicas agudas no momento. Plano da rotina mantém conduta clínica. No momento não há pendências imediatas.`;
+
+    const itensChecklist = [
+        { id: "tvp", label: "Profilaxia TVP ativa" },
+        { id: "ulcera", label: "Profilaxia de Úlcera ativa" },
+        { id: "delirium", label: "Profilaxia de Delirium ativa" },
+        { id: "dieta", label: "Paciente recebendo dieta (Oral/SNE/GTT)" },
+        { id: "atb", label: "Antibioticoterapia em andamento" },
+        { id: "culturas", label: "Culturas coletadas/controladas" },
+        { id: "eliminacoes", label: "Eliminações fisiológicas presentes nas últimas 24h" },
+        { id: "vm", label: "Em Ventilação Mecânica (VM)" },
+        { id: "dva", label: "Em uso de Drogas Vasoativas (DVA)" },
+        { id: "alta_cirurgica", label: "Paciente com alta das especialidades cirúrgicas" },
+        { id: "sem_dor", label: "Paciente sem queixas álgicas agudas" },
+        { id: "lucido", label: "Paciente encontra-se lúcido" }
+    ];
+
+    if (perfilAtivo === "CHEFIA") {
+        btnChecklist.style.display = "none";
+        btnRound.style.display = "none";
+        btnEvolucao.style.display = "none";
+        btnPassagem.style.display = "none";
+        btnAltaRapida.style.display = "none";
+        btnChefia.style.display = "block";
+        
+        document.getElementById("metric-permanencia").innerText = "14";
+        document.getElementById("metric-vm").innerText = "0 (Ar ambiente)";
+        document.getElementById("metric-barreira").innerText = "Aguardando parecer da Vascular solicitado há 48h";
+        document.getElementById("metric-alta-status").innerText = "Aguardando liberação de barreira logística";
+        
+        mudarAba('chefia');
+    } 
+    else if (perfilAtivo === "ROTINA") {
+        btnChefia.style.display = "none";
+        btnChecklist.style.display = "block";
+        btnRound.style.display = "block";
+        btnEvolucao.style.display = "block";
+        btnPassagem.style.display = "block";
+        btnAltaRapida.style.display = "block";
+
+        btnSalvarChecklist.innerText = "Validar Escore de Alta e Condutas";
+        btnSalvarChecklist.style.background = "#10b981";
+        
+        let htmlResumo = `<div style="background:#f8fafc; border:1px solid #e2e8f0; padding:15px; border-radius:6px; line-height:1.6;">`;
+        htmlResumo += `<p style="color:#0056b3; font-weight:700; margin-bottom:10px;">📋 Apanhado Geral do Turno (Extraído):</p>`;
+        itensChecklist.forEach(item => {
+            const statusSimulado = item.id !== "vm" && item.id !== "dva" ? "✔️ Ativo/Sim" : "❌ Inativo/Não";
+            htmlResumo += `<p style="margin-bottom:4px;">• <strong>${item.label}:</strong> <span style="color:#475569;">${statusSimulado}</span></p>`;
+        });
+        htmlResumo += `</div>`;
+        
+        zonaChecklistInputs.innerHTML = htmlResumo;
+        mudarAba('round');
+    } 
+    else if (perfilAtivo === "STUDENT") {
+        btnChefia.style.display = "none";
+        btnChecklist.style.display = "block";
+        btnRound.style.display = "block";
+        btnEvolucao.style.display = "block";
+        btnPassagem.style.display = "block";
+        btnAltaRapida.style.display = "none";
+
+        btnSalvarChecklist.innerText = "Submeter Rascunho para Validação do Residente";
+        btnSalvarChecklist.style.background = "#64748b";
+        
+        let htmlForm = `<div style="display:flex; flex-direction:column; gap:12px;">`;
+        itensChecklist.forEach(item => {
+            htmlForm += `
+                <label style="display:flex; align-items:center; gap:10px; cursor:pointer; background:#f8fafc; padding:8px 12px; border-radius:6px; border:1px solid #e2e8f0;">
+                    <input type="checkbox" id="chk-${item.id}" style="width:16px; height:16px; cursor:pointer;">
+                    <span style="font-size:13px; font-weight:600; color:#334155;">${item.label}</span>
+                </label>
+            `;
+        });
+        htmlForm += `</div>`;
+        
+        zonaChecklistInputs.innerHTML = htmlForm;
+        mudarAba('checklist');
+    } 
+    else {
+        btnChefia.style.display = "none";
+        btnChecklist.style.display = "block";
+        btnRound.style.display = "block";
+        btnEvolucao.style.display = "block";
+        btnPassagem.style.display = "block";
+        btnAltaRapida.style.display = "block";
+        
+        btnSalvarChecklist.innerText = "Salvar Ajustes do Plantão";
+        btnSalvarChecklist.style.background = "#0056b3";
+        
+        let htmlForm = `<div style="display:flex; flex-direction:column; gap:12px;">`;
+        itensChecklist.forEach(item => {
+            htmlForm += `
+                <label style="display:flex; align-items:center; gap:10px; cursor:pointer; background:#f8fafc; padding:8px 12px; border-radius:6px; border:1px solid #e2e8f0;">
+                    <input type="checkbox" id="chk-${item.id}" style="width:16px; height:16px; cursor:pointer;">
+                    <span style="font-size:13px; font-weight:600; color:#334155;">${item.label}</span>
+                </label>
+            `;
+        });
+        htmlForm += `</div>`;
+        
+        zonaChecklistInputs.innerHTML = htmlForm;
+        mudarAba('passagem');
+    }
+}
+
+function mudarAba(nomeAba) {
+    document.querySelectorAll(".aba-content").forEach(el => el.style.display = "none");
+    document.querySelectorAll(".aba-btn").forEach(el => el.classList.remove("ativa"));
+    
+    const alvoConteudo = document.getElementById(`conteudo-aba-${nomeAba}`);
+    const alvoBotao = document.getElementById(`btn-aba-${nomeAba}`);
+    
+    if(alvoConteudo) alvoConteudo.style.display = "block";
+    if(alvoBotao) alvoBotao.classList.add("ativa");
+}
+
+function fecharJanelaLeito() {
+    document.getElementById("medai-modal-leito").style.display = "none";
+}
+
+function ejecutarAltaRapida() {
+    if (confirm("Deseja encerrar este caso clínico? Os dados longitudinais serão arquivados de forma segura na gaveta de históricos e o leito será liberado.")) {
+        alert("Caso arquivado com sucesso! Leito limpo e atualizado para o estado: APAGADO.");
+        fecharJanelaLeito();
+    }
+}
+
+function baixarArquivoTXT() {
+    alert("Arquivo .TXT gerado com sucesso para cópia direta no prontuário do hospital.");
+}
