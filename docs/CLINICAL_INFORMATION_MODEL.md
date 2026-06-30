@@ -388,6 +388,10 @@ Calcular indicadores
 Jamais decidir.
 
 ---
+# Informação Temporal
+
+A informação clínica possui dimensão temporal. Um dado isolado raramente possui significado completo. Seu valor aumenta quando analisado em sequência cronológica. O MedAI deverá preservar toda a linha temporal do paciente, permitindo reconstruir sua trajetória clínica desde a admissão até a alta. A evolução médica não é uma coleção de documentos independentes, mas uma narrativa contínua do processo de cuidado. O sistema deverá destacar tendências, velocidades de mudança, eventos marcantes e pontos de inflexão, transformando registros estáticos em uma representação dinâmica da história clínica do paciente.
+---
 
 # Objetivo Final
 
