@@ -102,6 +102,10 @@ TTS
 Geração automática de áudios para passagem de plantão.
 
 ---
+Escala Assistencial
+Equipes
+Dashboard Diário
+---
 
 # Fluxo
 
