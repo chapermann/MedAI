@@ -45,6 +45,26 @@ Permissões
 
 ---
 
+Usuário
+
+↓
+
+Escala Assistencial
+
+↓
+
+Equipe
+
+↓
+
+Leitos
+
+↓
+
+Paciente
+
+---
+
 # Paciente
 
 ID
