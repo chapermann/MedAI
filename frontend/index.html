@@ -7,7 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* Estilos Base - Fundo Branco e Visual Clínico Limpo */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -53,14 +52,12 @@
             letter-spacing: 0.5px;
         }
 
-        /* Grid de Leitos */
         .grid-leitos {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
             gap: 20px;
         }
 
-        /* Efeito das Caixas 3D dos Leitos */
         .card-leito {
             background: #ffffff;
             border: 1px solid #e0e0e0;
@@ -101,7 +98,6 @@
             -webkit-box-orient: vertical;
         }
 
-        /* Sistema Visual das Lâmpadas de Status */
         .lampada {
             width: 14px;
             height: 14px;
@@ -112,25 +108,10 @@
             box-shadow: 0 0 8px rgba(0,0,0,0.1);
         }
 
-        .lampada.vermelha {
-            background-color: #dc3545;
-            box-shadow: 0 0 12px #dc3545;
-        }
-
-        .lampada.amarela {
-            background-color: #ffc107;
-            box-shadow: 0 0 12px #ffc107;
-        }
-
-        .lampada.verde {
-            background-color: #198754;
-            box-shadow: 0 0 12px #198754;
-        }
-
-        .lampada.apagada {
-            background-color: #e0e0e0;
-            box-shadow: none;
-        }
+        .lampada.vermelha { background-color: #dc3545; box-shadow: 0 0 12px #dc3545; }
+        .lampada.amarela { background-color: #ffc107; box-shadow: 0 0 12px #ffc107; }
+        .lampada.verde { background-color: #198754; box-shadow: 0 0 12px #198754; }
+        .lampada.apagada { background-color: #e0e0e0; box-shadow: none; }
     </style>
 </head>
 <body>
@@ -161,58 +142,37 @@
         setInterval(atualizarRelogio, 1000);
         atualizarRelogio();
 
-        const dadosSimuladosLeitos = {
-            vermelha: [
-                { num: 1, iniciais: "M.S.", dx: "Insuficiência Respiratória Aguda / Pneumonia", status: "vermelha" },
-                { num: 2, iniciais: "J.A.O.", dx: "Politrauma / Acidente de Moto", status: "amarela" },
-                { num: 3, iniciais: "P.R.F.", dx: "Pós-Op Laparotomia Exploradora", status: "verde" },
-                { num: 4, iniciais: "--", dx: "Leito Vazio", status: "apagada" },
-                { num: 5, iniciais: "A.B.C.", dx: "AVE Isquêmico em progressão", status: "vermelha" },
-                { num: 6, iniciais: "--", dx: "Leito Vazio", status: "apagada" },
-                { num: 7, iniciais: "--", dx: "Leito Vazio", status: "apagada" },
-                { num: 8, iniciais: "--", dx: "Leito Vazio", status: "apagada" },
-                { num: 9, iniciais: "--", dx: "Leito Vazio", status: "apagada" },
-                { num: 10, iniciais: "--", dx: "Leito Vazio", status: "apagada" },
-                { num: 11, iniciais: "--", dx: "Leito Vazio", status: "apagada" }
-            ],
-            trauma: [
-                { num: 1, iniciais: "T.H.M.", dx: "TCE Grave / Fratura de Fêmur", status: "vermelha" },
-                { num: 2, iniciais: "L.F.S.", dx: "Trauma Torácico Fechado", status: "verde" },
-                { num: 3, iniciais: "--", dx: "Leito Vazio", status: "apagada" },
-                { num: 4, iniciais: "--", dx: "Leito Vazio", status: "apagada" },
-                { num: 5, iniciais: "--", dx: "Leito Vazio", status: "apagada" },
-                { num: 6, iniciais: "--", dx: "Leito Vazio", status: "apagada" }
-            ]
-        };
-
-        function renderizarPainel() {
+        // TODOS OS LEITOS INICIAM VAZIOS AGORA (Aguardando inserção)
+        function inicializarPainelVazio() {
             const containerVermelha = document.getElementById('grid-vermelha');
             const containerTrauma = document.getElementById('grid-trauma');
 
-            dadosSimuladosLeitos.vermelha.forEach(leito => {
+            // Constrói os 11 leitos da Sala Vermelha limpos
+            for (let i = 1; i <= 11; i++) {
                 containerVermelha.innerHTML += `
-                    <div class="card-leito">
-                        <div class="lampada ${leito.status}"></div>
-                        <div class="leito-numero">Leito V${leito.num}</div>
-                        <div class="paciente-iniciais">${leito.iniciais}</div>
-                        <div class="diagnostico-resumo">${leito.dx}</div>
+                    <div class="card-leito" id="card-leito-V${i}">
+                        <div class="lampada apagada"></div>
+                        <div class="leito-numero">Leito V${i}</div>
+                        <div class="paciente-iniciais">--</div>
+                        <div class="diagnostico-resumo">Leito Vazio</div>
                     </div>
                 `;
-            });
+            }
 
-            dadosSimuladosLeitos.trauma.forEach(leito => {
+            // Constrói os 6 leitos do Trauma limpos
+            for (let i = 1; i <= 6; i++) {
                 containerTrauma.innerHTML += `
-                    <div class="card-leito">
-                        <div class="lampada ${leito.status}"></div>
-                        <div class="leito-numero">Leito T${leito.num}</div>
-                        <div class="paciente-iniciais">${leito.iniciais}</div>
-                        <div class="diagnostico-resumo">${leito.dx}</div>
+                    <div class="card-leito" id="card-leito-T${i}">
+                        <div class="lampada apagada"></div>
+                        <div class="leito-numero">Leito T${i}</div>
+                        <div class="paciente-iniciais">--</div>
+                        <div class="diagnostico-resumo">Leito Vazio</div>
                     </div>
                 `;
-            });
+            }
         }
 
-        renderizarPainel();
+        inicializarPainelVazio();
     </script>
     <script src="app.js"></script>
 </body>
