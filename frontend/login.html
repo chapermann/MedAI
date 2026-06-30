@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedAI - Identificação de Perfil Assistencial</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            width: 100%;
+            max-width: 900px;
+            padding: 40px;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 35px;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 20px;
+        }
+
+        .login-header h1 {
+            color: #0056b3;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .login-header p {
+            color: #64748b;
+            font-size: 15px;
+        }
+
+        .perfil-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        /* Cartões de Perfis Cores Clínicas e Projeção 3D sutil */
+        .card-perfil {
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 25px;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-perfil:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 56, 179, 0.08);
+        }
+
+        /* Destaques de Hierarquia com cores baseadas no impacto */
+        .card-perfil.médico-residente:hover { border-color: #0056b3; }
+        .card-perfil.rotina-professor:hover { border-color: #10b981; }
+        .card-perfil.chefia-medica:hover { border-color: #f59e0b; }
+        .card-perfil.academico-interno:hover { border-color: #64748b; }
+
+        .perfil-nome {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .perfil-tag {
+            font-size: 11px;
+            text-transform: uppercase;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+
+        .tag-medico { background: #e0f2fe; color: #0369a1; }
+        .tag-rotina { background: #d1fae5; color: #065f46; }
+        .tag-chefia { background: #fef3c7; color: #92400e; }
+        .tag-student { background: #f1f5f9; color: #475569; }
+
+        .perfil-competencias {
+            font-size: 13px;
+            color: #475569;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .perfil-competencias ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .perfil-competencias li {
+            margin-bottom: 6px;
+            position: relative;
+            padding-left: 15px;
+        }
+
+        .perfil-competencias li::before {
+            content: "•";
+            color: #94a3b8;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .btn-entrar {
+            width: 100%;
+            background: #f1f5f9;
+            color: #475569;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            text-align: center;
+            text-decoration: none;
+            margin-top: auto;
+        }
+
+        .card-perfil:hover .btn-entrar {
+            background: #0056b3;
+            color: #ffffff;
+        }
+        .card-perfil.rotina-professor:hover .btn-entrar { background: #10b981; }
+        .card-perfil.chefia-medica:hover .btn-entrar { background: #f59e0b; }
+        .card-perfil.academico-interno:hover .btn-entrar { background: #64748b; }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <div class="login-header">
+            <h1>MedAI — Controle de Acesso</h1>
+            <p>Quem é você no plantão hoje? Selecione seu perfil para adequação da carga cognitiva.</p>
+        </div>
+
+        <div class="perfil-grid">
+
+            <div class="card-perfil médico-residente" onclick="fazerLogin('MEDICO')">
+                <div>
+                    <div class="perfil-nome">
+                        Plantonista / Residente
+                        <span class="perfil-tag tag-medico">Operacional</span>
+                    </div>
+                    <div class="perfil-competencias">
+                        <ul>
+                            <li>Acesso total à escrita do Dia Assistencial.</li>
+                            <li>Geração de evoluções via IA, checklists e pendências rápidas.</li>
+                            <li>Execução e transcrição das condutas do turno.</li>
+                            <li><strong>Responsabilidade:</strong> Validar evoluções de Acadêmicos.</li>
+                        </ul>
+                    </div>
+                </div>
+                <button class="btn-entrar">Assumir Plantão</button>
+            </div>
+
+            <div class="card-perfil rotina-professor" onclick="fazerLogin('ROTINA')">
+                <div>
+                    <div class="perfil-nome">
+                        Médico de Rotina
+                        <span class="perfil-tag tag-rotina">Estratégico</span>
+                    </div>
+                    <div class="perfil-competencias">
+                        <ul>
+                            <li><strong>Carga Otimizada:</strong> Não preenche checklist bruto; recebe apenas o apanhado geral e as respostas prontas.</li>
+                            <li>Definição e edição soberana de condutas estruturadas e limites de cuidados.</li>
+                            <li>Gerenciamento direto dos critérios e escores matemáticos de alta.</li>
+                        </ul>
+                    </div>
+                </div>
+                <button class="btn-entrar">Acessar Rotina</button>
+            </div>
+
+            <div class="card-perfil chefia-medica" onclick="fazerLogin('CHEFIA')">
+                <div>
+                    <div class="perfil-nome">
+                        Chefia Médica / Direção
+                        <span class="perfil-tag tag-chefia">Auditoria</span>
+                    </div>
+                    <div class="perfil-competencias">
+                        <ul>
+                            <li><strong>Foco em Métricas:</strong> Visão gerencial isolada (diagnósticos clínicos ocultados).</li>
+                            <li>Monitoramento de Tempo de Permanência e Barreiras logísticas.</li>
+                            <li>Rastreio de Pareceres de especialidades pendentes ou não respondidos.</li>
+                            <li>Indicadores de qualidade documental e giro de leitos.</li>
+                        </ul>
+                    </div>
+                </div>
+                <button class="btn-entrar">Abrir Auditoria</button>
+            </div>
+
+            <div class="card-perfil academico-interno" onclick="fazerLogin('STUDENT')">
+                <div>
+                    <div class="perfil-nome">
+                        Acadêmico / Interno
+                        <span class="perfil-tag tag-student">Ensino</span>
+                    </div>
+                    <div class="perfil-competencias">
+                        <ul>
+                            <li>Acesso focado na inserção inicial de dados (Evolução e Checklist bruto).</li>
+                            <li><strong>Trava de Segurança:</strong> Rascunhos gerados necessitam obrigatoriamente do OK / validação do Residente ou Plantonista.</li>
+                            <li>Bloqueio total de indicadores gerenciais e painéis de chefia.</li>
+                        </ul>
+                    </div>
+                </div>
+                <button class="btn-entrar">Iniciar Prática</button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function fazerLogin(perfil) {
+            // Guarda o perfil selecionado no armazenamento do navegador (SessionStorage)
+            sessionStorage.setItem('medai_perfil', perfil);
+            // Redireciona o usuário para o painel de leitos (index.html) que criamos anteriormente
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
