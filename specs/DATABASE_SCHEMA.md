@@ -35,7 +35,18 @@ Paciente ──< Internacao ──< DiaAssistencial ──┬──< Evolucao
 ```
 
 Cada seta `──<` indica relação um-para-muitos. `DiaAssistencial` é o nó central — é o que o docs/DATABASE.md chama de granularidade mínima de acompanhamento, e é também a unidade de contexto que alimenta o "Estado Clínico" usado pelos Especialistas de IA.
+---
+Hospital
 
+Setor
+
+Equipe
+
+EscalaAssistencial
+
+Turno
+
+Responsabilidade Leitos
 ---
 
 # 3. DDL — Núcleo
