@@ -8,26 +8,38 @@ Autor: Arquitetura MedAI
 ---
 # Princípio Fundamental
 
-O MedAI é um sistema de organização clínica.
+O MedAI é um sistema de organização da informação clínica.
 
-Sua função nunca será facilitar o acesso aos dados.
+Seu objetivo é disponibilizar a informação correta, para a pessoa correta, no momento correto, respeitando rigorosamente os princípios de confidencialidade, rastreabilidade e responsabilidade profissional.
 
-Sua função é facilitar o acesso APENAS às pessoas autorizadas.
+Sempre que houver conflito entre usabilidade, desempenho ou conveniência e a confidencialidade clínica, prevalecerá a proteção da informação do paciente.
 
-Sempre que houver conflito entre usabilidade e confidencialidade clínica, prevalecerá a confidencialidade.
+## Responsabilidade Clínica
+
+Toda informação clínica registrada no MedAI é de responsabilidade exclusiva da equipe assistencial.
+
+A Inteligência Artificial atua exclusivamente como ferramenta de organização, estruturação, sumarização e recuperação da informação.
+
+A IA nunca cria fatos clínicos, nunca substitui o julgamento médico e nunca assume autoria de qualquer documento assistencial.
 
 # Sanitização Obrigatória de Dados Pessoais
+A sanitização é obrigatória e ocorre antes de qualquer etapa de processamento.
+Nenhum componente do MedAI poderá acessar o texto original antes da sanitização.
+Isso inclui:
+• Banco de dados
+• Whisper
+• Modelos de IA
+• Banco Vetorial
+• TTS
+• Logs
+• Backups
+• Cache
 
 ## Princípio
-
 O MedAI não possui finalidade administrativa.
-
 Sua finalidade é exclusivamente assistencial.
-
 Portanto, dados pessoais que não agregam valor clínico não deverão ser armazenados.
-
 A sanitização ocorre antes de qualquer processamento pelo sistema.
-
 Nenhum componente interno ou externo poderá receber esses dados.
 
 ---
@@ -66,9 +78,24 @@ Esses dados jamais serão:
 - utilizados pelo TTS
 - exibidos em telas
 - exportados
-
 ---
+## Política de Não Retenção
 
+Após a sanitização, os dados removidos deixam de existir para o MedAI.
+
+O sistema não mantém cópias temporárias, históricos, arquivos de recuperação ou registros contendo essas informações.
+
+O MedAI registra apenas que ocorreu uma sanitização, sem armazenar o conteúdo removido.
+---
+## Princípio da Minimização
+
+Todo módulo do MedAI deverá acessar apenas a menor quantidade de informação necessária para executar sua função.
+
+Nenhum componente poderá solicitar, transmitir ou armazenar dados clínicos ou pessoais que não sejam estritamente necessários para a tarefa em execução.
+---
+### Princípio da Governança
+"Sempre que o sistema identificar, com alta confiança, dados pessoais sem finalidade assistencial (como CPF, telefones, endereços, documentos civis e contatos pessoais), esses dados deverão ser removidos imediatamente antes de qualquer armazenamento, processamento, indexação ou transmissão. O conteúdo removido não será preservado em logs, backups, cache ou qualquer outro componente do sistema."
+---
 ## Identificação Clínica
 
 Sempre substituir por identificadores clínicos.
@@ -154,6 +181,26 @@ Usuário:
 
 Dr. XXXXX
 
+---
+## Dados proibidos
+
+Os seguintes dados não possuem finalidade assistencial e serão removidos automaticamente sempre que identificados:
+
+• CPF
+• RG
+• CNH
+• Passaporte
+• Cartão SUS
+• Título de eleitor
+• Telefones
+• Celulares
+• WhatsApp
+• Endereços
+• CEP
+• E-mails pessoais
+• Nome da mãe
+• Nome do pai
+• Contatos familiares
 ---
 
 ## Regra Absoluta
