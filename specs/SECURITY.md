@@ -4,6 +4,163 @@ Versão: 0.1
 Status: Formalizado a partir de docs/AI_RULES.md (Regras 1, 8, 13) e PROJECT.md (Princípios)
 Autor: Arquitetura MedAI
 
+
+---
+# Princípio Fundamental
+
+O MedAI é um sistema de organização clínica.
+
+Sua função nunca será facilitar o acesso aos dados.
+
+Sua função é facilitar o acesso APENAS às pessoas autorizadas.
+
+Sempre que houver conflito entre usabilidade e confidencialidade clínica, prevalecerá a confidencialidade.
+
+# Sanitização Obrigatória de Dados Pessoais
+
+## Princípio
+
+O MedAI não possui finalidade administrativa.
+
+Sua finalidade é exclusivamente assistencial.
+
+Portanto, dados pessoais que não agregam valor clínico não deverão ser armazenados.
+
+A sanitização ocorre antes de qualquer processamento pelo sistema.
+
+Nenhum componente interno ou externo poderá receber esses dados.
+
+---
+
+## Dados proibidos
+
+Sempre remover:
+
+- CPF
+- RG
+- CNH
+- Passaporte
+- Cartão SUS
+- Título de eleitor
+- PIS/PASEP
+- Telefones
+- Celulares
+- WhatsApp
+- E-mail
+- CEP
+- Endereço
+- Número residencial
+- Complemento
+- Nome da mãe
+- Nome do pai
+- Nome de familiares
+- Contatos de emergência
+
+Esses dados jamais serão:
+
+- armazenados
+- indexados
+- enviados para IA
+- enviados ao banco vetorial
+- utilizados pelo Whisper
+- utilizados pelo TTS
+- exibidos em telas
+- exportados
+
+---
+
+## Identificação Clínica
+
+Sempre substituir por identificadores clínicos.
+
+Exemplo:
+
+João Carlos Pereira
+
+↓
+
+Paciente JCP
+
+Telefone:
+
+(21) 99888-7766
+
+↓
+
+[REMOVIDO]
+
+CPF:
+
+123.456.789-09
+
+↓
+
+[REMOVIDO]
+
+Rua das Flores, 321
+
+↓
+
+[REMOVIDO]
+
+---
+
+## Detecção Automática
+
+O sistema deverá detectar automaticamente padrões sugestivos de:
+
+- CPF
+- telefone
+- celular
+- e-mail
+- endereço
+- documentos oficiais
+
+independentemente da forma como foram escritos.
+
+Exemplos:
+
+21998887766
+
+21 99888 7766
+
+(21)99888-7766
+
++55 21 99888-7766
+
+CPF 12345678909
+
+123.456.789-09
+
+Todos deverão ser removidos automaticamente.
+
+---
+Sanitização obrigatória (mandatória) do Sistema
+Sanitização executada
+
+Itens removidos:
+
+✓ 1 CPF
+
+✓ 2 telefones
+
+✓ 1 endereço
+
+Horário:
+
+08:32
+
+Usuário:
+
+Dr. XXXXX
+
+---
+
+## Regra Absoluta
+
+Caso exista dúvida se determinada informação representa um dado pessoal identificável, o MedAI deverá adotar a abordagem mais conservadora e removê-la antes de qualquer armazenamento ou processamento.
+
+Nenhum dado identificado como potencialmente sensível poderá ser preservado por conveniência técnica.
 ---
 
 # 1. Escopo
