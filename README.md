@@ -1,11 +1,6 @@
 # MedAI
 Sistema Inteligente para Gestão Clínica, Apoio à Decisão Médica, Ensino e Pesquisa. Desenvolver uma plataforma integrada capaz de auxiliar médicos, residentes e professores durante toda a rotina hospitalar, utilizando Inteligência Artificial Local, preservando a confidencialidade dos pacientes e reduzindo o tempo gasto com tarefas administrativas. 
 
-
-Excelente. Eu proponho que tratemos este como um projeto de engenharia de software, não como um conjunto de scripts. Vamos criar um documento que possa servir como base para o desenvolvimento pelos próximos anos.
-
-Este documento será o **PROJECT.md** (o "cérebro" do MedAI). Tudo o que decidirmos passará primeiro por ele.
-
 ---
 ---
 
