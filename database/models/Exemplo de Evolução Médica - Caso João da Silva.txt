@@ -1,0 +1,54 @@
+Exemplo de Evolução Médica
+Leito 2 - Sala Vermelha
+Nome do paciente: João da Silva
+Data de nascimento: 12/03/1975
+Sexo: Masculino
+Naturalidade: Paraíba
+Número do prontuário: 000123
+Data da admissão: 02/05/2025
+Motivo da internação (MI): AVC isquêmico com transformação hemorrágica
+Diagnóstico principal (CID-10): I64 – Acidente Vascular Cerebral não especificado
+
+História da doença atual (HDA): Paciente 51 anos, trazido do HM Lourenço Jorge, com quadro inicial de fraqueza braquio-crural à direita. Foi realizada TC crânio de urgência naquela instituição, com evidencias de AVE isquêmico extenso no território da ACM. Já se evidenciava apagamento dos sulcos e dos ventrículos laterais esquerdos. Apresentando deterioração do quadro clínico, evoluiu com rebaixamento do nível de consciência, vômitos, bradicardia, hipertensão, sendo então submetido à Intubação orotraqueal. Trazido ao HMMC para avaliação da Neurocirurgia. À sua chegada, apresentava-se anisocórico, foi realizada nova TC de Cranio, que evidenciou hematoma intraparenquimatoso, HSA, hemoventrículo, com grande desvio de linha média, apagamento do ventrículo lateral e contra-lateral. Paralelamente, foi observado pela radiologia, lesões cranianas, sugestivas de lesões líticas, com hipótese de mieloma múltiplo. 
+	Foi optado por craniectomia descompressiva. No momento da intubação orotraqueal, observou-se enfisema subcutâneo, portanto foi expandida a tomografia, até o tórax, onde foi constatado pneumotórax bilateral, pequena laceração da traquéia no 1/3 proximal da traqueia, bem como pneumotórax e atelectasia do pulmão esquerdo por seletividade do tubo orotraqueal. 
+No centro cirúrgico foi submetido a punção de um acesso venoso central, e punção arterial para monitorização invasiva. Durante a punção da veia femoral esquerda, foi inadvertidamente funcionada a artéria femoral, e o fio-guia do cateter foi tragado pela artéria, se perdendo no sistema circulatório, então foi chamada a equipe de cirurgia vascular para localização e exérese do cateter arterial. Na punção venosa central, na veia femoral esquerda, foi observado pequeno pseudoaneurisma pós punção. Foi novamente solicitada a presença da cirurgia vascular, se haveria possibilidade de correção cirúrgica. Aguardamos a resposta do parecer da Cir Vascular.
+Paciente apresentou grande perda de sangue durante a cirurgia, deu entrada com Hb 11,00 e sai do CC com Hb em torno de 6,0. Foram realizadas 2 concentrados de hemácias, O+, pois o paciente é O- e não haviam bolsas disponíveis para O-.
+
+Recebo o paciente em VM, tubo aramado 8.0; dreno de tórax bilateral, craniectomizado, perda da calota óssea por lesões cranianas. 
+Intubado, sedado com midazolam e fentanil, 0,3mcg/kg/min o primeiro,  2mcg/kg/min o segundo; Noradrenalina a 2mcg/kg/min; 
+PA 100 x 56mmhg; FC 103bpm, irregular (em FA); SAT 96%; FR 20 rpm, bem adaptado à VM. Sedado, hipocorado, anictérico, acianótico, eupneico. Diurese cerca de 50ml no coletor, não apresentou relato de diurese durante a cirurgia. Coletado exames laboratoriais para comparação. Muito enfisema subcutâneo.
+ACV: RC irregular, anárquico, em FA, FC 103bpm +-. Sopro sistólico 2+/6+ em FAo e mitral. Pulsos palpáveis, simétricos. Pulso algo diminuído na AFE. 
+AR: MVUA com estertores difusos bilaterais, drenos de tórax oscilando com fuga aérea bilateral. 
+Acesso venoso profundo na VFE. 
+VM: FiO2 100%; FR 20irpm, Modo Vent PCV, Pt 20; Pins 15; Peep 5; Vol 430ml.
+
+História patológica pregressa (HPP): 
+Hipertenso há 10 anos, em uso de losartana. Tabagista até 2024. Fumou de 1988 a 2024, cerca de um maço por dia. Nega DM ou dislipidemia (SIC). Fazia uso de álcool quase diariamente, destilados e fermentados. Preferência por alimentos condimentados e ultraprocessados. Familiares referem princípio de infarto em 2023 no UPA de Copacabana, porém paciente evadiu da unidade e não teve acesso aos exames. Familiar refere que tem dispneia aos médios esforços, já não aguentava mais trabalhar como bombeiro hidráulico. Dormia sentado com almofadas nas costas, se recusava a procurar atendimento médico. Na mesma semana, já apresentava fraqueza dos mmii, e parou de conseguir deambular com os dois membros, mesmo assim optou por não procurar atendimento médico. 
+
+Hist Familiar: Desconhece o pai e os familiares do pai. Mãe falecida de insuficiência cardíaca e infarto agudo do miocárdio. Irmão com câncer no sangue, esposa desconhece qual. Irmão faz diálise.
+
+Ex Labs:
+01/05/2025 (HMLJ) - Hm 2,98; Hgb 10,0; HTC 30%; VCM 110; RDW 14%; Leucócitos 8100; N 45%; Seg 44%; Bast 1%; Linfócitos 45%; Eo 5%; Mono 5%; Pqts 145.000; Ur 98; Cr 3,2; K 4,2; Na 143; Mg 2,1; Ca 18,0; Ptn 9,0; Alb 2,1; Glob 6,9; TGO 123; TGP 122; Gt 120; FA 550; Bil 1,0; BInd 0,5; Bd 0,5; TAP 75%; PTT 32s; INR 1,2; EAS proteinúria 3+;
+
+Tomografia de Cranio: 
+01/05 - HMLJ - Área hipodensidade no território da ACM sugestivo de AVC isquêmico agudo, hemicranias esquerdo. Desvio da linha média 2mm
+02/05 - HMMC - Hematoma intraparenquimatoso, apagamento dos ventrículos laterais, apagamento dos sulcos, desvio da LM 6mm. Lesões cranianas líticas difusas.
+
+
+Impressão:
+{Elaborar impressão Médica}
+
+Lista de problemas e diagnósticos:
+{	}
+
+Conduta:
+1 - Vigilância intensiva;
+2 - Hemotransfusão
+3 - Controle das alterações encontradas
+4 - Urina 24h + Clearance + proteinúria
+5 - Acompanhar débitos dos Drenos.
+6 - Prevenção de VAP - Trocar tubo
+7 - propor TQT precoce
+8 - Fica sem profilaxia de TVP por enquanto
+9 - solicito ECO TT
+10 - Parecer da Nefrologia.
