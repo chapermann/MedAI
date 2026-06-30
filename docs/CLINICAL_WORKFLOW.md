@@ -1,5 +1,29 @@
 Como a medicina acontece.
 
+Login
+
+↓
+
+Selecionar plantão
+
+↓
+
+Selecionar setor
+
+↓
+
+Selecionar função
+
+↓
+
+Selecionar leitos
+
+↓
+
+Abrir Dashboard
+
+---
+
 Fluxos.
 
 Paciente chega
