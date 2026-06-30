@@ -410,3 +410,24 @@ Acelerar altas.
 Reduzir tempo de permanência.
 
 Fortalecer ensino, pesquisa e gestão hospitalar.
+
+---
+# O documento científico.
+
+Define:
+
+O que é um paciente.
+
+O que é uma evolução.
+
+O que é a Linha Temporal Clínica.
+
+O conceito de Flipbook.
+
+Persistência Clínica.
+
+História Clínica.
+
+Inteligência Longitudinal.
+
+É o documento que diferencia o MedAI de qualquer prontuário.
