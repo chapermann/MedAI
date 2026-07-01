@@ -18,31 +18,30 @@ Evolução Médica
 # Diagnóstico 1: [Preencher se houver]
 # Diagnóstico 2: [Preencher se houver]
 # Diagnóstico 3: [Preencher se houver]
-# # DI - hospitalar: [Preencher se houver]
+# # Data de internação (DI) - hospitalar: [Preencher se houver]
 
-## Nota de Admissão: [Descrever com detalhes e com cronologia adequada, com enredo entendível, o desenvolvimento dos motivos e razões da internação médica]
+## Nota de Admissão: [Descrever com detalhes e com cronologia adequada, com enredo entendível, o desenvolvimento dos motivos e razões da internação médica, elaborar bem o texto pois a chegada do paciente é o ponto mais importante da história clínica]
 
 # HPP / Problemas clínicos associados: [Descrever e relatar todos os problemas clínicos e cirúrgicos encontrados no prontuário e nas evoluções, marcar como resolvido todos os que já foram resolvidos, atuais como os que ainda estão em tratamento]
 
 # Lista de PROBLEMAS ATUAIS:
-[Listar clinicamente os problemas ativos atuais]
+[Listar clinicamente os problemas ativos atuais, encontrados na história e na evolução médica]
 
 # Lista de Problemas Resolvidos:
 [Listar problemas que foram documentados como superados ou resolvidos]
 
 # Pareceres + Clínica de apoio:	
-	[ ] Vascular	[ ] NC	[ ] CG	[ ] Ortopedia	[ ] Otorrino	[ ] Oftalmo 
-	[ ] Oncologia		[ ] Cir Tórax
-	(Marcar com [X] apenas os solicitados/ativos discutidos no texto)
+	[ ] Vascular	[ ] NC	[ ] CG	[ ] Ortopedia	[ ] Otorrino	[ ] Oftalmo 	[ ] Oncologia		[ ] Cir Tórax
+	(Marcar com [X] apenas os solicitados/ativos discutidos e informados no texto)
 
-# Aguardando Procedimento?	[ ] SIM [ ] NÃO; Pós-op?	[ ] SIM [ ] NÃO
+# Aguardando Algum Procedimento médico ou cirúrgico?	[ ] SIM [ ] NÃO; É Pós operatório?	[ ] SIM [ ] NÃO
 # Aguardando visita da Cirurgia?  	[ ] SIM [ ] NÃO
 # Exames realizados:
-	### Radiologia:
-	# TC TORAX: 	[Data] LAUDO:	[ ] Não [ ] Sim: 
-	# RX:		[Data] LAUDO:	[ ] Não [ ] Sim: 
-	### Ecocardiograma: [Descrever laudo/data se houver]
-	### US: [Descrever laudo/data se houver]
+	### Exames da Radiologia:
+	# TC TORAX: 	[Data] LAUDO:	[ ] Não [ ] Sim: - Resumo dos achados encontrados. 
+	# RX:		[Data] LAUDO:	[ ] Não [ ] Sim: Resumo dos achados encontrados.
+	### Ecocardiograma: [Descrever laudo/data se houver] - Resumo do Ecocardiograma realizado.
+	### Ultrassom: [Descrever laudo/data se houver]
 
 # Profilaxia de TEV / Anticoagulação plena: 	[ ] SIM [ ] NÃO
 
@@ -64,7 +63,7 @@ Aceitação da dieta: 		[ ] SIM [ ] NÃO		[ ] Oral		[ ] Enteral/GTT	[ ] Parenter
 Eliminações Fisiológicas?	[ ] SIM [ ] NÃO; descrição? [Inserir nota da enfermagem se houver]
 
 # EXAME FÍSICO:
-PA:	FC:	SAT:		FR:		HGT:		Temp:		Diurese:
+PA:		FC:		SAT:		FR:		HGT:		Temp:		Diurese:
 AR: [Descrever]
 ACV: [Descrever]
 Abd: [Descrever]
@@ -72,12 +71,12 @@ Membros: [Descrever]
 Neurológico: [Descrever]
 
 # Laboratório:
-	[Analisar as tendências dos últimos dias / exames. Deixar o mais recente bem descrito.]
+	[Analisar as tendências dos últimos dias + analisar os exames descritos / exames. Deixar o mais recente bem descrito.]
 
 # Gasometria arterial:
 [Data]: pH: [Valor]; pO2: [Valor]; pCO2: [Valor]; HCO3: [Valor]; FiO2: [Valor]; Sat %: [Valor]
 
-#Impressão: [Resumo do caso clínico – ideal para ser passado entre os plantonistas ou como resumo do caso clínico para outros médicos]
+#Impressão: [Resumo do caso clínico – ideal para ser passado entre os médicos, resumo bem completo e bem elaborado ou como resumo do caso clínico para outros médicos]
 
 #Conduta: [Todas as condutas, profilaxias indicadas, acompanhamento, registros de procedimentos, registros de aguardando exames, aguardando respostas de pareceres]
 
