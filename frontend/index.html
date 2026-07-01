@@ -5,164 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MedAI - Painel Geral de Leitos</title>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-    
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Open Sans', sans-serif;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Open Sans', sans-serif; }
+        body { background-color: #f8f9fa; color: #333333; padding: 20px; }
+        header { border-bottom: 2px solid #e2e8f0; background: #ffffff; padding: 20px; margin-bottom: 25px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); display: flex; justify-content: space-between; align-items: center; }
+        header h1 { font-size: 24px; color: #0056b3; }
+        .painel-info-turno { font-size: 13px; color: #1e3a8a; background: #e0f2fe; padding: 6px 12px; border-radius: 6px; font-weight: 600; margin-top: 5px; display: inline-block; border: 1px solid #bae6fd; }
+        .timestamp { font-size: 14px; color: #64748b; text-align: right; font-weight: 600; }
+        
+        /* Zona de comandos avançados da direção */
+        .barra-macro-chefia { background: #fffbeb; border: 1px solid #fde68a; padding: 15px; border-radius: 8px; margin-bottom: 25px; display: none; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .btn-chefia-acao { background: #d97706; color: white; border: none; padding: 8px 12px; border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 12px; }
+        .btn-chefia-perigo { background: #b91c1c; color: white; border: none; padding: 8px 12px; border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 12px; }
+        
+        .setor-container { margin-bottom: 40px; background: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; }
+        .setor-titulo { font-size: 15px; font-weight: 700; margin-bottom: 20px; color: #1e293b; text-transform: uppercase; letter-spacing: 0.5px; border-left: 4px solid #0056b3; padding-left: 10px; }
+        .grid-leitos { display: grid; grid-template-columns: repeat(repeat(auto-fill, minmax(220px, 1fr))); grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 20px; }
+        
+        .card-leito { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; position: relative; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.01); display: flex; flex-direction: column; justify-content: space-between; min-height: 170px; }
+        .leito-numero { font-size: 20px; font-weight: 700; color: #0056b3; margin-bottom: 5px; }
+        .paciente-iniciais { font-size: 15px; font-weight: 600; color: #1e293b; margin-bottom: 3px; }
+        .diagnostico-resumo { font-size: 12px; color: #64748b; line-height: 1.4; height: 34px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; margin-bottom: 8px; }
+        .trilha-assinatura-card { font-size: 10px; font-weight: 700; color: #475569; background: #f1f5f9; padding: 2px 5px; border-radius: 3px; display: inline-block; margin-top: 5px; }
 
-        body {
-            background-color: #f8f9fa;
-            color: #333333;
-            padding: 20px;
-        }
-
-        header {
-            border-bottom: 2px solid #e2e8f0;
-            background: #ffffff;
-            padding: 20px;
-            margin-bottom: 25px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        header h1 {
-            font-size: 24px;
-            color: #0056b3;
-        }
-
-        .painel-info-turno {
-            font-size: 13px;
-            color: #475569;
-            background: #f1f5f9;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-weight: 600;
-            margin-top: 5px;
-            display: inline-block;
-        }
-
-        .timestamp {
-            font-size: 14px;
-            color: #64748b;
-            text-align: right;
-            font-weight: 600;
-        }
-
-        /* Zona de comandos da direção */
-        .barra-macro-chefia {
-            background: #fffbeb;
-            border: 1px solid #fde68a;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-            display: none;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .btn-chefia-acao {
-            background: #d97706;
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 4px;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 12px;
-        }
-
-        .setor-container {
-            margin-bottom: 40px;
-            background: #ffffff;
-            padding: 20px;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
-        }
-
-        .setor-titulo {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: #1e293b;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border-left: 4px solid #0056b3;
-            padding-left: 10px;
-        }
-
-        .grid-leitos {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 20px;
-        }
-
-        .card-leito {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 20px;
-            position: relative;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
-            transition: transform 0.2s, box-shadow 0.2s;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 160px;
-        }
-
-        .card-leito:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08);
-        }
-
-        .leito-numero {
-            font-size: 20px;
-            font-weight: 700;
-            color: #0056b3;
-            margin-bottom: 8px;
-        }
-
-        .paciente-iniciais {
-            font-size: 16px;
-            font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 5px;
-        }
-
-        .diagnostico-resumo {
-            font-size: 13px;
-            color: #64748b;
-            line-height: 1.4;
-            height: 38px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            margin-bottom: 10px;
-        }
-
-        .lampada {
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            position: absolute;
-            top: 20px;
-            right: 20px;
-        }
-
-        .lampada.vermelha { background-color: #dc3545; box-shadow: 0 0 12px #dc3545; }
-        .lampada.amarela { background-color: #ffc107; box-shadow: 0 0 12px #ffc107; }
-        .lampada.verde { background-color: #198754; box-shadow: 0 0 12px #198754; }
+        .lampada { width: 14px; height: 14px; border-radius: 50%; position: absolute; top: 20px; right: 20px; }
+        .lampada.vermelha { background-color: #dc3545; box-shadow: 0 0 10px #dc3545; }
+        .lampada.amarela { background-color: #ffc107; box-shadow: 0 0 10px #ffc107; }
+        .lampada.verde { background-color: #198754; box-shadow: 0 0 10px #198754; }
         .lampada.apagada { background-color: #cbd5e1; box-shadow: none; }
-        .lampada.bloqueado { background-color: #7f1d1d; box-shadow: 0 0 12px #7f1d1d; }
+        .lampada.bloqueado { background-color: #7f1d1d; box-shadow: 0 0 10px #7f1d1d; }
     </style>
 </head>
 <body>
@@ -170,7 +41,7 @@
     <header>
         <div>
             <h1>MedAI — Painel de Monitoramento</h1>
-            <div class="painel-info-turno" id="info-perfil-visto">Perfil: Carregando...</div>
+            <div class="painel-info-turno" id="info-perfil-visto">Contexto: Carregando...</div>
         </div>
         <div class="timestamp">
             <div id="live-clock">Atualizando...</div>
@@ -178,22 +49,30 @@
         </div>
     </header>
 
-    <!-- Zona de privilégios operacionais da chefia -->
+    <!-- Painel de Gerenciamento de Infraestrutura (Soberania da Chefia) -->
     <div class="barra-macro-chefia" id="painel-macro-chefia">
-        <span style="font-size: 13px; font-weight: 700; color: #92400e;">⚙️ CONTROLE DE INFRAESTRUTURA:</span>
-        <button class="btn-chefia-acao" onclick="adicionarLeitoDinamico('V')">+ Adicionar Leito Sala Vermelha</button>
+        <span style="font-size: 12px; font-weight: 700; color: #92400e; padding-right: 5px;">⚙️ MACRO GESTÃO:</span>
+        <button class="btn-chefia-acao" onclick="adicionarLeitoDinamico('V')">+ Adicionar Leito Vermelha</button>
         <button class="btn-chefia-acao" onclick="adicionarLeitoDinamico('T')">+ Adicionar Leito Trauma</button>
-        <button class="btn-chefia-acao" style="background:#7f1d1d;" onclick="removerUltimoLeitoDinamico()">- Remover Último Leito</button>
+        <button class="btn-chefia-perigo" onclick="removerUltimoLeitoDinamico()">Apagar Último Leito</button>
+        <button class="btn-chefia-perigo" style="background:#7f1d1d;" onclick="bloquearTodosLeitosUnidade(true)">[ Interditar Toda a Unidade ]</button>
+        <button class="btn-chefia-acao" style="background:#16a34a;" onclick="bloquearTodosLeitosUnidade(false)">[ Desbloquear Todos os Leitos ]</button>
     </div>
 
     <div class="setor-container">
-        <div class="setor-titulo" id="titulo-vermelha">Sala Vermelha</div>
+        <div class="setor-titulo">Sala Vermelha</div>
         <div class="grid-leitos" id="grid-vermelha"></div>
     </div>
 
     <div class="setor-container">
-        <div class="setor-titulo" id="titulo-trauma">Retaguarda do Trauma</div>
+        <div class="setor-titulo">Retaguarda do Trauma</div>
         <div class="grid-leitos" id="grid-trauma"></div>
+    </div>
+
+    <!-- Seção de exibição de LOGS de autoria na parte inferior da tela -->
+    <div class="setor-container" style="background: #0f172a; color: #94a3b8; border: none;">
+        <div class="setor-titulo" style="color: #ffffff; border-color: #38bdf8;">Histórico de Trilha de Auditoria Logística e Clínica (Logs do Turno)</div>
+        <pre id="painel-logs-sistema" style="font-family: monospace; font-size: 11px; max-height: 150px; overflow-y: auto; line-height: 1.5; white-space: pre-wrap; color: #38bdf8;"></pre>
     </div>
 
     <script src="app.js"></script>
