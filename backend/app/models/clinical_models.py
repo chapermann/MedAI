@@ -72,6 +72,69 @@ class StatusExame(PyEnum):
     realizado_aguardando_laudo  = "realizado_aguardando_laudo"
     laudo_disponivel            = "laudo_disponivel"
 
+class ChecklistRotina(Base):
+    __tablename__ = "checklists_rotina"
+
+    id                  = Column(UUID(as_uuid=False), primary_key=True, default=new_uuid)
+    dia_assistencial_id = Column(UUID(as_uuid=False), ForeignKey("dias_assistenciais.id"), nullable=False)
+    preenchido_por      = Column(UUID(as_uuid=False), ForeignKey("usuarios.id"), nullable=False)
+    preenchido_em       = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+    # Suporte básico
+    tem_dieta           = Column(Boolean, nullable=True)
+    tem_analgesia       = Column(Boolean, nullable=True)
+    tem_sedacao         = Column(Boolean, nullable=True)
+    tem_aminas          = Column(Boolean, nullable=True)
+    em_uso_atb          = Column(Boolean, nullable=True)
+    glicemia_na_meta    = Column(Boolean, nullable=True)  # meta 80-180 mg/dL
+
+    # Decisões de progressão
+    previsao_transferencia_enfermaria = Column(Boolean, nullable=True)
+    iniciar_desmame_ventilatório      = Column(Boolean, nullable=True)
+    tentar_extubacao_tre              = Column(Boolean, nullable=True)
+    diminuir_sedacao                  = Column(Boolean, nullable=True)
+    diminuir_analgesia                = Column(Boolean, nullable=True)
+
+    # Parâmetros ventilatórios (quando em VM)
+    vm_volume_corrente_adequado = Column(Boolean, nullable=True)  # 6-8 ml/kg
+    vm_pressao_plateau          = Column(String(20), nullable=True)
+    vm_modo_ventilatório        = Column(String(50), nullable=True)
+
+    # Profilaxias
+    profilaxias_aplicadas = Column(Boolean, nullable=True)  # TVP, úlcera córnea, duodenal, LPP
+
+    # Dispositivos
+    dispositivo_remover = Column(Boolean, nullable=True)
+    dispositivo_trocar  = Column(Boolean, nullable=True)
+
+    # Cuidados de enfermagem / fisio (Rotina notifica)
+    mobilizacao_ativa      = Column(Boolean, nullable=True)
+    mobilizacao_passiva    = Column(Boolean, nullable=True)
+    cuidados_pele_lpp      = Column(Boolean, nullable=True)
+    acompanhou_banho       = Column(Boolean, nullable=True)
+    mudanca_decubito       = Column(Boolean, nullable=True)
+    cabeceira_elevada      = Column(Boolean, nullable=True)  # 30-45°
+
+    # Pendências externas
+    exames_pendentes       = Column(Boolean, nullable=True)
+    pareceres_pendentes    = Column(Boolean, nullable=True)
+    laudos_pendentes       = Column(Boolean, nullable=True)
+    febre                  = Column(Boolean, nullable=True)
+
+    # Equipe notificada
+    notificou_enfermagem   = Column(Boolean, nullable=True)
+    notificou_nutricao     = Column(Boolean, nullable=True)
+    notificou_fisioterapia = Column(Boolean, nullable=True)
+    notificou_fonoaudiologia = Column(Boolean, nullable=True)
+    notificou_odontologia  = Column(Boolean, nullable=True)
+
+    # Relação com familiares
+    relacao_familiar = Column(String(20), nullable=True)  # saudavel / complicada / conturbada
+
+    # Observações livres da rotina
+    observacoes        = Column(Text, nullable=True)
+
+    dia_assistencial = relationship("DiaAssistencial", back_populates="checklist_rotina")
 
 # ---------------------------------------------------------------------------
 # USUARIO
