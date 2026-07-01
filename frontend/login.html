@@ -3,251 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MedAI - Identificação de Perfil Assistencial</title>
+    <title>MedAI — Autenticação e Contexto do Plantão</title>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Open Sans', sans-serif;
-        }
-
-        body {
-            background-color: #f8f9fa;
-            color: #333333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .login-container {
-            background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            border: 1px solid #e2e8f0;
-            width: 100%;
-            max-width: 900px;
-            padding: 40px;
-        }
-
-        .login-header {
-            text-align: center;
-            margin-bottom: 35px;
-            border-bottom: 2px solid #f1f5f9;
-            padding-bottom: 20px;
-        }
-
-        .login-header h1 {
-            color: #0056b3;
-            font-size: 28px;
-            margin-bottom: 8px;
-        }
-
-        .login-header p {
-            color: #64748b;
-            font-size: 15px;
-        }
-
-        .perfil-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-
-        /* Cartões de Perfis Cores Clínicas e Projeção 3D sutil */
-        .card-perfil {
-            background: #ffffff;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 25px;
-            cursor: pointer;
-            position: relative;
-            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .card-perfil:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0, 56, 179, 0.08);
-        }
-
-        /* Destaques de Hierarquia com cores baseadas no impacto */
-        .card-perfil.médico-residente:hover { border-color: #0056b3; }
-        .card-perfil.rotina-professor:hover { border-color: #10b981; }
-        .card-perfil.chefia-medica:hover { border-color: #f59e0b; }
-        .card-perfil.academico-interno:hover { border-color: #64748b; }
-
-        .perfil-nome {
-            font-size: 18px;
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .perfil-tag {
-            font-size: 11px;
-            text-transform: uppercase;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-weight: 700;
-        }
-
-        .tag-medico { background: #e0f2fe; color: #0369a1; }
-        .tag-rotina { background: #d1fae5; color: #065f46; }
-        .tag-chefia { background: #fef3c7; color: #92400e; }
-        .tag-student { background: #f1f5f9; color: #475569; }
-
-        .perfil-competencias {
-            font-size: 13px;
-            color: #475569;
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-
-        .perfil-competencias ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .perfil-competencias li {
-            margin-bottom: 6px;
-            position: relative;
-            padding-left: 15px;
-        }
-
-        .perfil-competencias li::before {
-            content: "•";
-            color: #94a3b8;
-            position: absolute;
-            left: 0;
-            font-weight: bold;
-        }
-
-        .btn-entrar {
-            width: 100%;
-            background: #f1f5f9;
-            color: #475569;
-            border: none;
-            padding: 10px;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            transition: background 0.2s, color 0.2s;
-            text-align: center;
-            text-decoration: none;
-            margin-top: auto;
-        }
-
-        .card-perfil:hover .btn-entrar {
-            background: #0056b3;
-            color: #ffffff;
-        }
-        .card-perfil.rotina-professor:hover .btn-entrar { background: #10b981; }
-        .card-perfil.chefia-medica:hover .btn-entrar { background: #f59e0b; }
-        .card-perfil.academico-interno:hover .btn-entrar { background: #64748b; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Open Sans', sans-serif; }
+        body { background-color: #f1f5f9; color: #1e293b; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .login-container { background: #ffffff; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #cbd5e1; width: 100%; max-width: 550px; padding: 35px; }
+        .login-header { text-align: center; margin-bottom: 25px; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px; }
+        .login-header h1 { color: #0056b3; font-size: 24px; margin-bottom: 5px; }
+        .campo-grupo { margin-bottom: 18px; }
+        label { display: block; font-size: 13px; font-weight: 700; color: #475569; margin-bottom: 6px; text-transform: uppercase; }
+        input[type="text"], select { width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 6px; font-size: 14px; color: #1e293b; outline: none; }
+        input[type="text"]:focus, select:focus { border-color: #0056b3; }
+        .zona-dinamica { background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 6px; margin-bottom: 18px; display: none; }
+        .grid-checkbox { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 5px; }
+        .opcao-check { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; cursor: pointer; }
+        .btn-principal { width: 100%; background: #0056b3; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: 700; font-size: 15px; cursor: pointer; transition: background 0.2s; text-transform: uppercase; }
+        .btn-principal:hover { background: #004187; }
+        .alerta-pin { background: #eff6ff; border-left: 4px solid #3b82f6; padding: 10px; font-size: 12px; color: #1e40af; margin-top: 10px; font-weight: 600; }
     </style>
 </head>
 <body>
 
     <div class="login-container">
         <div class="login-header">
-            <h1>MedAI — Controle de Acesso</h1>
-            <p>Quem é você no plantão hoje? Selecione seu perfil para adequação da carga cognitiva.</p>
+            <h1>MedAI — Portal Operacional</h1>
+            <p style="color: #64748b; font-size: 14px;">Defina sua identidade e competência para o Dia Assistencial.</p>
         </div>
 
-        <div class="perfil-grid">
-
-            <div class="card-perfil médico-residente" onclick="fazerLogin('MEDICO')">
-                <div>
-                    <div class="perfil-nome">
-                        Plantonista / Residente
-                        <span class="perfil-tag tag-medico">Operacional</span>
-                    </div>
-                    <div class="perfil-competencias">
-                        <ul>
-                            <li>Acesso total à escrita do Dia Assistencial.</li>
-                            <li>Geração de evoluções via IA, checklists e pendências rápidas.</li>
-                            <li>Execução e transcrição das condutas do turno.</li>
-                            <li><strong>Responsabilidade:</strong> Validar evoluções de Acadêmicos.</li>
-                        </ul>
-                    </div>
-                </div>
-                <button class="btn-entrar">Assumir Plantão</button>
+        <form id="form-login" onsubmit="processarFormularioLogin(event)">
+            <div class="campo-grupo">
+                <label>Nome Completo / Identificação</label>
+                <input type="text" id="usuario-nome" placeholder="Ex: Dr. Fernando Medeiros" required>
             </div>
 
-            <div class="card-perfil rotina-professor" onclick="fazerLogin('ROTINA')">
-                <div>
-                    <div class="perfil-nome">
-                        Médico de Rotina
-                        <span class="perfil-tag tag-rotina">Estratégico</span>
-                    </div>
-                    <div class="perfil-competencias">
-                        <ul>
-                            <li><strong>Carga Otimizada:</strong> Não preenche checklist bruto; recebe apenas o apanhado geral e as respostas prontas.</li>
-                            <li>Definição e edição soberana de condutas estruturadas e limites de cuidados.</li>
-                            <li>Gerenciamento direto dos critérios e escores matemáticos de alta.</li>
-                        </ul>
-                    </div>
-                </div>
-                <button class="btn-entrar">Acessar Rotina</button>
+            <div class="campo-grupo">
+                <label>Função no Turno Hoje</label>
+                <select id="usuario-perfil" onchange="ajustarFormularioPorPerfil(this.value)" required>
+                    <option value="">-- Selecione sua Função --</option>
+                    <option value="CHEFIA">Chefia Médica / Direção da Unidade</option>
+                    <option value="ROTINA">Médico de Rotina / Professor</option>
+                    <option value="MEDICO">Médico Plantonista / Residente</option>
+                    <option value="STUDENT">Acadêmico / Interno / Aluno</option>
+                </select>
             </div>
 
-            <div class="card-perfil chefia-medica" onclick="fazerLogin('CHEFIA')">
-                <div>
-                    <div class="perfil-nome">
-                        Chefia Médica / Direção
-                        <span class="perfil-tag tag-chefia">Auditoria</span>
-                    </div>
-                    <div class="perfil-competencias">
-                        <ul>
-                            <li><strong>Foco em Métricas:</strong> Visão gerencial isolada (diagnósticos clínicos ocultados).</li>
-                            <li>Monitoramento de Tempo de Permanência e Barreiras logísticas.</li>
-                            <li>Rastreio de Pareceres de especialidades pendentes ou não respondidos.</li>
-                            <li>Indicadores de qualidade documental e giro de leitos.</li>
-                        </ul>
-                    </div>
+            <!-- FORMULÁRIO DINÂMICO PARA CHEFIA -->
+            <div id="zona-chefia" class="zona-dinamica">
+                <div class="campo-grupo">
+                    <label>Função Administrativa Específica</label>
+                    <select id="chefia-cargo">
+                        <option value="Diretor Geral">Diretor Geral da Emergência</option>
+                        <option value="Chefe de Equipe">Chefe de Equipe de Plantão</option>
+                        <option value="Coordenador Clínico">Coordenador de CTI/Sala Vermelha</option>
+                    </select>
                 </div>
-                <button class="btn-entrar">Abrir Auditoria</button>
             </div>
 
-            <div class="card-perfil academico-interno" onclick="fazerLogin('STUDENT')">
-                <div>
-                    <div class="perfil-nome">
-                        Acadêmico / Interno
-                        <span class="perfil-tag tag-student">Ensino</span>
-                    </div>
-                    <div class="perfil-competencias">
-                        <ul>
-                            <li>Acesso focado na inserção inicial de dados (Evolução e Checklist bruto).</li>
-                            <li><strong>Trava de Segurança:</strong> Rascunhos gerados necessitam obrigatoriamente do OK / validação do Residente ou Plantonista.</li>
-                            <li>Bloqueio total de indicadores gerenciais e painéis de chefia.</li>
-                        </ul>
-                    </div>
+            <!-- FORMULÁRIO DINÂMICO PARA ROTINA -->
+            <div id="zona-rotina" class="zona-dinamica">
+                <label>Áreas de Responsabilidade Coberta</label>
+                <p style="font-size:11px; color:#64748b; margin-bottom:8px;">(Selecione todos os setores que irá avaliar/coordenar hoje)</p>
+                <div class="grid-checkbox">
+                    <label class="opcao-check"><input type="checkbox" name="setor-rotina" value="Sala Vermelha" checked> Sala Vermelha</label>
+                    <label class="opcao-check"><input type="checkbox" name="setor-rotina" value="Trauma"> Retaguarda Trauma</label>
+                    <label class="opcao-check"><input type="checkbox" name="setor-rotina" value="CTI"> CTI Geral</label>
+                    <label class="opcao-check"><input type="checkbox" name="setor-rotina" value="Observacao"> Observação</label>
                 </div>
-                <button class="btn-entrar">Iniciar Prática</button>
             </div>
 
-        </div>
+            <!-- FORMULÁRIO DINÂMICO PARA PLANTONISTA / RESIDENTE -->
+            <div id="zona-plantonista" class="zona-dinamica">
+                <div class="campo-grupo" style="margin-bottom: 12px;">
+                    <label>Sub-função Assistencial</label>
+                    <select id="plantonista-sub">
+                        <option value="Plantonista Soberano">Médico Plantonista Corrente</option>
+                        <option value="Residente R2">Médico Residente (R2/R3)</option>
+                        <option value="Residente R1">Médico Residente (R1)</option>
+                    </select>
+                </div>
+                <div class="campo-grupo" style="margin-bottom: 12px;">
+                    <label>Setor de Atuação Fixo</label>
+                    <select id="plantonista-setor">
+                        <option value="Sala Vermelha">Sala Vermelha (Evolução V)</option>
+                        <option value="Retaguarda do Trauma">Retaguarda do Trauma (Evolução T)</option>
+                    </select>
+                </div>
+                <div class="campo-grupo">
+                    <label>Leitos sob sua Tutela Direta</label>
+                    <div class="grid-checkbox">
+                        <label class="opcao-check"><input type="checkbox" id="check-todos-leitos" onchange="alternarTodosLeitos(this.checked)"> <strong>Selecionar Todos</strong></label>
+                        <label class="opcao-check"><input type="checkbox" name="leitos-tutela" value="1" checked> Leitos 1 e 2</label>
+                        <label class="opcao-check"><input type="checkbox" name="leitos-tutela" value="3"> Leitos 3 e 4</label>
+                        <label class="opcao-check"><input type="checkbox" name="leitos-tutela" value="5"> Leitos 5 e 6</label>
+                    </div>
+                </div>
+                <div class="alerta-pin">
+                    🔑 Seu PIN de liberação para Internos gerado automaticamente para este turno é: <strong style="font-size:14px; color:#1d4ed8;">9988</strong>
+                </div>
+            </div>
+
+            <!-- FORMULÁRIO DINÂMICO PARA ACADÊMICO / INTERNO -->
+            <div id="zona-estudante" class="zona-dinamica">
+                <div class="alerta-pin" style="background:#fff7ed; border-color:#f97316; color:#c2410c;">
+                    ⚠️ <strong>Restrição de Prática Assistencial Ativa:</strong><br>
+                    Suas inserções e rascunhos de evolução ficarão marcados com sua autoria e bloqueados para publicação oficial até que o Plantonista responsável insira o PIN de liberação de segurança.
+                </div>
+            </div>
+
+            <button type="submit" class="btn-principal">Assumir Contexto de Turno</button>
+        </form>
     </div>
 
-<script>
-        function fazerLogin(perfil) {
-            // Guarda o perfil funcional selecionado para o turno atual
+    <script>
+        function ajustarFormularioPorPerfil(perfil) {
+            // Oculta todas as zonas dinâmicas primeiro
+            document.querySelectorAll('.zona-dinamica').forEach(z => z.style.display = 'none');
+            
+            // Exibe a zona específica do perfil selecionado
+            if (perfil === 'CHEFIA') document.getElementById('zona-chefia').style.display = 'block';
+            if (perfil === 'ROTINA') document.getElementById('zona-rotina').style.display = 'block';
+            if (perfil === 'MEDICO') document.getElementById('zona-plantonista').style.display = 'block';
+            if (perfil === 'STUDENT') document.getElementById('zona-estudante').style.display = 'block';
+        }
+
+        function alternarTodosLeitos(status) {
+            document.querySelectorAll('input[name="leitos-tutela"]').forEach(c => c.checked = status);
+        }
+
+        function processarFormularioLogin(e) {
+            e.preventDefault();
+            
+            const nome = document.getElementById('usuario-nome').value;
+            const perfil = document.getElementById('usuario-perfil').value;
+            
+            // Armazena informações core globais no SessionStorage
             sessionStorage.setItem('medai_perfil', perfil);
+            sessionStorage.setItem('medai_usuario_nome', nome);
             
-            // Define o usuário fictício logado e limpa estados anteriores
-            sessionStorage.setItem('medai_usuario_nome', 'Dr. Fernando');
+            // Captura contextos específicos e cria rótulos customizados para o cabeçalho
+            let rotuloMeta = `Função: ${perfil}`;
             
-            // Redireciona para o painel de monitoramento do plantão
+            if (perfil === 'CHEFIA') {
+                const cargo = document.getElementById('chefia-cargo').value;
+                sessionStorage.setItem('medai_meta_detalhe', cargo);
+                rotuloMeta = `${cargo} (${nome})`;
+            } 
+            else if (perfil === 'ROTINA') {
+                let setores = [];
+                document.querySelectorAll('input[name="setor-rotina"]:checked').forEach(c => setores.push(c.value));
+                sessionStorage.setItem('medai_meta_detalhe', `Setores: ${setores.join(', ')}`);
+                rotuloMeta = `Rotina Médica — ${setores.join('/')}`;
+            } 
+            else if (perfil === 'MEDICO') {
+                const subCargo = document.getElementById('plantonista-sub').value;
+                const setorFixo = document.getElementById('plantonista-setor').value;
+                sessionStorage.setItem('medai_meta_detalhe', `${subCargo} em ${setorFixo}`);
+                sessionStorage.setItem('medai_pin_autorizador', '9988'); // PIN fixado por sessão
+                rotuloMeta = `${subCargo} — Setor: ${setorFixo}`;
+            } 
+            else if (perfil === 'STUDENT') {
+                sessionStorage.setItem('medai_meta_detalhe', 'Estudante Interno de Medicina');
+                rotuloMeta = `Acadêmico: ${nome} (Sob Supervisão)`;
+            }
+
+            sessionStorage.setItem('medai_rotulo_header', rotuloMeta);
+            
+            // Avança para o mapa de monitoramento
             window.location.href = 'index.html';
         }
     </script>
